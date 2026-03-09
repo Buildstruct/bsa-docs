@@ -1,0 +1,37 @@
+:root {
+  --bsa-bg: #0b0f14;
+  --bsa-bg-soft: #111822;
+  --bsa-bg-code: #0e1520;
+  --bsa-fg: #e8eef8;
+  --bsa-fg-soft: #b8c6db;
+  --bsa-brand: #1fa3ff;
+  --bsa-brand-dark: #2f7fd9;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--bsa-bg);
+  --md-default-bg-color--light: var(--bsa-bg-soft);
+  --md-default-bg-color--lighter: #172131;
+  --md-default-bg-color--lightest: #1b2638;
+
+  --md-default-fg-color: var(--bsa-fg);
+  --md-default-fg-color--light: var(--bsa-fg-soft);
+
+  --md-typeset-color: var(--bsa-fg);
+  --md-code-bg-color: var(--bsa-bg-code);
+  --md-code-hl-function-color: #4aa8ff;
+
+  --md-primary-fg-color: var(--bsa-brand);
+  --md-primary-fg-color--dark: var(--bsa-brand-dark);
+  --md-accent-fg-color: #76b8ff;
+  --md-footer-bg-color: #070b10;
+}
+
+.md-typeset ul li,
+.md-typeset ol li {
+  margin-bottom: 0.15em;
+}
+
+.md-typeset li {
+  line-height: 1.3;
+}

@@ -1,0 +1,99 @@
+site_name: Buildstruct Admen
+site_description: Monolithic community system for multi-platform communities.
+docs_dir: docs
+theme:
+  name: material
+  palette:
+    scheme: slate
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Home: index.md
+  - Database:
+    - Providers: database/bsa_providers.md
+    - Services: database/bsa_services.md
+    - Servers: database/bsa_servers.md
+    - Groups: database/bsa_groups.md
+    - Players: database/bsa_players.md
+    - Player Groups: database/bsa_player_groups.md
+    - Permissions: database/bsa_permissions.md
+    - Group Permissions: database/bsa_group_permissions.md
+    - Accounts: database/bsa_accounts.md
+    - Punishments: database/bsa_punishments.md
+    - Commands: database/bsa_command.md
+    - Command Expected: database/bsa_command_expected.md
+    - Command Acknowledge: database/bsa_command_acknowledge.md
+    - Command Routines: database/bsa_command_routines.md
+    - Command Cleanup: database/bsa_command_cleanup.md
+  - Platforms:
+      - Garry's Mod:
+          - Overview: platforms/garrysmod/index.md
+          - Command:
+              - Overview: platforms/garrysmod/command/index.md
+              - Structure: platforms/garrysmod/command/structure.md
+              - Interface: platforms/garrysmod/command/interface.md
+          - Database:
+              - Groups: platforms/garrysmod/database/groups.md
+              - Interlink: platforms/garrysmod/database/interlink.md
+              - Permissions: platforms/garrysmod/database/permissions.md
+              - Players: platforms/garrysmod/database/players.md
+              - Punishments: platforms/garrysmod/database/punishments.md
+              - Variables:
+                  - Groups: platforms/garrysmod/database/variables/groups.md
+                  - Permissions: platforms/garrysmod/database/variables/permissions.md
+                  - Players: platforms/garrysmod/database/variables/players.md
+                  - Punishments: platforms/garrysmod/database/variables/punishments.md
+          - Interface:
+              - Overview: platforms/garrysmod/interface/index.md
+              - Classes:
+                  - Button: platforms/garrysmod/interface/classes/button.md
+                  - Button Bar: platforms/garrysmod/interface/classes/buttonbar.md
+                  - Combo Box: platforms/garrysmod/interface/classes/combobox.md
+                  - Container: platforms/garrysmod/interface/classes/container.md
+                  - Context: platforms/garrysmod/interface/classes/context.md
+                  - Dropdown: platforms/garrysmod/interface/classes/dropdown.md
+                  - Frame: platforms/garrysmod/interface/classes/frame.md
+                  - Image: platforms/garrysmod/interface/classes/image.md
+                  - Label: platforms/garrysmod/interface/classes/label.md
+                  - Multi Box: platforms/garrysmod/interface/classes/multibox.md
+                  - Notification: platforms/garrysmod/interface/classes/notification.md
+                  - Panel: platforms/garrysmod/interface/classes/panel.md
+                  - Request: platforms/garrysmod/interface/classes/request.md
+                  - Scroll Panel: platforms/garrysmod/interface/classes/scrollpanel.md
+                  - SubPanel: platforms/garrysmod/interface/classes/subpanel.md
+                  - Tab: platforms/garrysmod/interface/classes/tab.md
+                  - Text Entry: platforms/garrysmod/interface/classes/textentry.md
+                  - Toggle: platforms/garrysmod/interface/classes/toggle.md
+                  - Tooltip: platforms/garrysmod/interface/classes/tooltip.md
+                  - Tree: platforms/garrysmod/interface/classes/tree.md
+          - Libraries:
+              - Class: platforms/garrysmod/libraries/class.md
+              - Command: platforms/garrysmod/libraries/command.md
+              - Configurate: platforms/garrysmod/libraries/configurate.md
+              - Dispatcher: platforms/garrysmod/libraries/dispatcher.md
+              - Datastore: platforms/garrysmod/libraries/datastore.md
+              - Flux: platforms/garrysmod/libraries/flux.md
+              - Paint: platforms/garrysmod/libraries/paint.md
+              - SFB: platforms/garrysmod/libraries/sfb.md
+              - SFS: platforms/garrysmod/libraries/sfs.md
+          - Modules:
+              - Plugins: platforms/garrysmod/modules/plugins.md
+              - Repr: platforms/garrysmod/modules/repr.md
+      - SourceMod:
+          - Overview: platforms/source/index.md
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.escapeall:
+      hardbreak: true
+  - toc:
+      permalink: true
+
+
