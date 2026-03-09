@@ -13,6 +13,10 @@ Buildstruct - Development Environments, Developer Assistants
 	This site is still under active development & project changes.\
 	You may find issues with this site, we recommend you report them when found.
 
+!!!abstract
+    We are still making major changes to this section, as development is not considered released.\
+    **BASELINE 1.0** is in relation to the release to Buildstruct, not public.
+
 ## Database
 The actual functionality behind BSA is highly dependant on the database.\
 All other projects simply attach to the database to function properly, without it everything breaks.
