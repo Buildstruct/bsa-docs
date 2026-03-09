@@ -95,5 +95,3 @@ markdown_extensions:
       hardbreak: true
   - toc:
       permalink: true
-
-
