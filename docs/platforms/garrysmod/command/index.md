@@ -1,9 +1,9 @@
-# Command System
+# {{ realm("server") }} Command System
 This is a highly adaptive command system that allows you to create unique ways of execution from a user perspective.
 
 ## Command Authoring
 
-Commands are built by creating groups and attaching commands:
+Commands are built by creating groups and attaching commands.
 
 ```lua
 local group = BSA.Commands:group("fun")

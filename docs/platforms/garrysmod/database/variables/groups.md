@@ -1,5 +1,8 @@
-# Variables: Groups
+# {{ realm("shared") }} Variables: Groups
 Replicated group state layer (`bsa_groups`) exposed as `BSA.Groups`, with helper APIs for inheritance, targeting, and permission aggregation.
+
+!!! info
+	See [core/database/variables/groups.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/database/variables/groups.lua) for the actual design implementation.
 
 ## Constants
 - `#!ts BSA.Groups.SYSTEM = 1`
@@ -46,9 +49,24 @@ Returns maximum effective weight for that permission.
 - `#!ts groups.Permissions:list(group: number|table, recursive?: boolean): table`
 
 ## Runtime Events
-- `#!ts groups.added(group)`
-- `#!ts groups.removed(group)`
-- `#!ts groups.updated(group)`
+- `#!ts groups.added(group: table)`\
+	Fired after a group is inserted into the replicated registry and registered with CAMI (when applicable).
 
-## Server Sync Behavior
-On `BSA.Storage.Groups` changes (`added`, `removed`, `renamed`, `realiased`, `reweighted`, `recolored`, `reinherited`, `rescoped`, `synced`) and `BSA.Storage.Groups.Permissions` changes, the module re-publishes `bsa_groups` from storage into replicated variables.
+- `#!ts groups.removed(group: table)`\
+	Fired after a group is evicted from the replicated registry and unregistered from CAMI (when applicable).
+
+- `#!ts groups.updated(group: table)`\
+	Fired when an existing group's data changes in the registry without being added or removed (e.g. weight, color, alias, inheritance).
+
+## Hooks
+GMod hooks fired alongside the dispatcher events above.\
+Dispatchers are always first-order and used internally by BSA.
+
+- `#!ts BSA.Groups:added(group: table)`\
+	Fired after a group is added to the registry and registered with CAMI (when applicable).
+
+- `#!ts BSA.Groups:removed(group: table)`\
+	Fired after a group is removed from the registry and unregistered from CAMI (when applicable).
+
+- `#!ts BSA.Groups:updated(group: table)`\
+	Fired when an existing group entry changes (not added or removed).

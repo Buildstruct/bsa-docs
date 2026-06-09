@@ -1,5 +1,8 @@
-# Datastore
+# {{ realm("server") }} Datastore
 Database manager abstraction over multiple SQL engines (currently `sqlite` and `mysqloo`) with unified lifecycle/events, query helpers, and optional localized modules.
+
+!!! info
+	See [core/libraries/datastore.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/datastore.lua) for the actual design implementation.
 
 !!! danger
 	We highly recommend using transactions and prepared statements for input-based queries.\
@@ -8,75 +11,76 @@ Database manager abstraction over multiple SQL engines (currently `sqlite` and `
 ## Functions
 
 - `#!ts datastore:new(engine: "sqlite" | "mysqloo", config?: table): datastore.object`\
-Creates a datastore manager and underlying SQL wrapper instance.
+	Creates a datastore manager and underlying SQL wrapper instance.
 
 ## Manager Object
 
 - `#!ts datastore:engine(): datastore.sql`\
-Returns underlying engine object.
+	Returns underlying engine object.
 
 - `#!ts datastore:alive(): boolean`\
-Returns connection/alive state from engine.
+	Returns connection/alive state from engine.
 
 - `#!ts datastore:connect(callback?: function(state: boolean, err?: string))`\
-Starts engine connection flow.
+	Starts engine connection flow.
 
 - `#!ts datastore:disconnect()`\
-Disconnects engine.
+	Disconnects engine.
 
 - `#!ts datastore:type(): string`\
-Returns engine class/type name.
+	Returns engine class/type name.
 
 - `#!ts datastore:query(sql: string, format?: table, callback?: function(data | false, err?: string))`\
-Executes raw query with optional `%` formatting array.\
-String values in `format` are escaped automatically.
+	Executes raw query with optional `%` formatting array.\
+	String values in `format` are escaped automatically.
 
 - `#!ts datastore:prepare(sql: string)`\
-Returns prepared statement object on engines that support it (`mysqloo`).\
-SQLite throws unsupported error.
+	Returns prepared statement object on engines that support it (`mysqloo`).\
+	SQLite throws unsupported error.
 
 - `#!ts datastore:pquery(sql: string, params?: table, callback?: function(data | false, err?: string))`\
-Prepared query shortcut (`prepare(...):run(...)`) on supporting engines.\
-SQLite throws unsupported error.
+	Prepared query shortcut (`prepare(...):run(...)`) on supporting engines.\
+	SQLite throws unsupported error.
 
 - `#!ts datastore:transaction()`\
-Creates transaction object bound to engine.
+	Creates transaction object bound to engine.
 
 - `#!ts datastore:escape(value: string, no_quotes?: boolean): string`\
-Escapes SQL value through engine implementation.
+	Escapes SQL value through engine implementation.
 
 - `#!ts datastore:localize(id: string, struct: table): datastore.localize`\
-Registers and constructs a localized module bound to this datastore.
+	Registers and constructs a localized module bound to this datastore.
 
 ## Manager Events
-All are `dispatcher` objects. Return values are ignored.
+All are `dispatcher` objects.\
+Return values are ignored.
 
 - `#!ts datastore.connected(...)`\
-Forwarded from engine `connected`.
+	Forwarded from engine `connected`.
 
 - `#!ts datastore.disconnected(...)`\
-Forwarded from engine `disconnected`.
+	Forwarded from engine `disconnected`.
 
 - `#!ts datastore.queue(query: string | object)`\
-Fired when query/statement/transaction query is queued.
+	Fired when query/statement/transaction query is queued.
 
 - `#!ts datastore.failure(err: string)`\
-Connection-level failure event.
+	Connection-level failure event.
 
 - `#!ts datastore.error(query: string | object, err: string, traceback?: string)`\
-Query/runtime error event.
+	Query/runtime error event.
 
 ## SQL Namespace
 Engine wrapper registry used internally by `datastore:new(...)`.
 
 - `#!ts datastore.SQL.types(): string[]`\
-Returns registered engine ids.
+	Returns registered engine ids.
 
 - `#!ts datastore.SQL.register(id: string, struct: table): class`\
-Registers engine class inheriting `datastore.sql`.
+	Registers engine class inheriting `datastore.sql`.
 
 - `#!ts datastore.SQL.new(id: string, ...): datastore.sql`\
-Constructs registered engine instance.
+	Constructs registered engine instance.
 
 ## Base Engine Contract (`datastore.sql`)
 Engine wrappers implement/override these methods.
@@ -110,16 +114,17 @@ Engine wrappers implement/override these methods.
 ### SQLite Transaction
 
 - `#!ts tx:query(sql: string, format?: table)`\
-Buffers formatted query.
+	Buffers formatted query.
 
 - `#!ts tx:pquery(...)`\
-Unsupported (throws).
+	Unsupported (throws).
 
 - `#!ts tx:count(): number`
 - `#!ts tx:get(): string` (newline-joined SQL)
 - `#!ts tx:trace(): string`
 - `#!ts tx:commit(callback?: function(), wait?: any)`\
-Runs buffered queries in transaction. Rolls back on first failure.
+	Runs buffered queries in transaction.\
+	Rolls back on first failure.
 
 ## MySQLOO Wrapper (`mysqloo`)
 
@@ -168,10 +173,10 @@ Parameter overflow against `?` placeholder count throws.
 ### MySQLOO Transaction
 
 - `#!ts tx:query(sql: string, format?: table, callback?: function): self`\
-Appends raw query object to transaction.
+	Appends raw query object to transaction.
 
 - `#!ts tx:pquery(sql: string, params?: table): self`\
-Appends prepared query object to transaction.
+	Appends prepared query object to transaction.
 
 - `#!ts tx:get(as_string?: boolean): table | string`
 - `#!ts tx:trace(): string`
@@ -179,7 +184,7 @@ Appends prepared query object to transaction.
 - `#!ts tx:isTransaction(): true`
 - `#!ts tx:isQuery(): false`
 - `#!ts tx:commit(callback?: function(data | false, err?: string), wait?: boolean)`\
-Starts transaction and optionally blocks with `wait`.
+	Starts transaction and optionally blocks with `wait`.
 
 ## Localized Storage (`datastore.localize`)
 Per-datastore module class that receives forwarded lifecycle/query events.

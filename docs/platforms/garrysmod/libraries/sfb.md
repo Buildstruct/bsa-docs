@@ -1,6 +1,9 @@
-# SFB
+# {{ realm("shared") }} SFB
 Binary read/write primitives used by Flux encoders/decoders and usable standalone for custom binary protocols.\
 Created by Srlion @ https://github.com/Srlion/sfs
+
+!!! info
+	See [core/libraries/sfb.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/sfb.lua) for the actual design implementation.
 
 Flux integration:
 
@@ -10,33 +13,33 @@ Flux integration:
 ## Module Exports
 
 - `#!lua sfb.Writer`\
-Binary writer class.
+	Binary writer class.
 
 - `#!lua sfb.Reader`\
-Binary reader class.
+	Binary reader class.
 
 - `#!lua sfb.NULL_ENT_INDEX: number`\
-Sentinel i16 value used to encode `NULL` entities.
+	Sentinel i16 value used to encode `NULL` entities.
 
 ## Writer
 
 - `#!lua sfb.Writer.new(): sfb.Writer`\
-Creates a new writer buffer.
+	Creates a new writer buffer.
 
 - `#!lua sfb.Writer.cached(): sfb.Writer`\
-Returns a shared cached writer reset to empty.
+	Returns a shared cached writer reset to empty.
 
 - `#!lua writer:reset(): self`\
-Clears buffered segments.
+	Clears buffered segments.
 
 - `#!lua writer:tostring(): string`\
-Returns concatenated binary payload.
+	Returns concatenated binary payload.
 
 - `#!lua writer:data(bytes: string): self`\
-Appends raw bytes.
+	Appends raw bytes.
 
 - `#!lua writer:string(value: string): self`\
-Writes string followed by `\0` terminator.
+	Writes string followed by `\0` terminator.
 
 ### Numeric Writes
 
@@ -68,16 +71,17 @@ Writes string followed by `\0` terminator.
 ## Reader
 
 - `#!lua sfb.Reader.new(data: string, max_size?: number): sfb.Reader`\
-Creates a reader over a byte string.
+	Creates a reader over a byte string.
 
 - `#!lua reader:reset(data: string, max_size?: number): self`\
-Resets reader state and input bytes.
+	Resets reader state and input bytes.
 
 - `#!lua reader:data(size?: number): string`\
-Reads raw bytes. Without `size`, returns remaining data (bounded by `max_size`).
+	Reads raw bytes.\
+	Without `size`, returns remaining data (bounded by `max_size`).
 
 - `#!lua reader:string(): string`\
-Reads a null-terminated string.
+	Reads a null-terminated string.
 
 ### Numeric Reads
 

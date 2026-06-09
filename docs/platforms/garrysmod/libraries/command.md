@@ -1,5 +1,8 @@
-# Commands
+# {{ realm("server") }} Commands
 Runtime command tree system with pluggable interfaces, argument parsing/validation, permission hooks, and recursive group routing.
+
+!!! info
+	See [core/libraries/command.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/command.lua) for the actual design implementation.
 
 ## Functions
 
@@ -42,7 +45,6 @@ Matches first prefix and returns `(prefix, remainder)` or `false`.
 Finds nested functional command by exact path segments.
 
 ## Manager Events
-All are `dispatcher` instances; callback return values are ignored.
 
 - `#!ts commands.permission(node: commands.group | commands.functional, permission: string)`\
 Fired when permissions are added through `.permission(...)`.
@@ -58,6 +60,12 @@ Fired when a same-name node is replaced.
 
 - `#!ts commands.invoked(command: commands.functional, invoker: commands.invoker, raw_args: string[], parsed_args: any[])`\
 Fired after argument validation succeeds and before callback execution.
+
+## Hooks
+
+- `#!ts BSA.Commands:invoked(command: commands.functional, invoker: commands.invoker, raw_args: string[], parsed_args: any[])`\
+Fired after argument validation succeeds and before callback execution.\
+Useful if you need to log commands.
 
 ## Functional Command
 Created through `group:command(...)` or manager-level `commands:add(...)`.
@@ -129,19 +137,20 @@ Marks group as flattened alias scope for interface resolver.
 Input adapter that parses a text message and routes to command tree.
 
 - `#!ts interface:invoke(invoker: commands.invoker, message: string)`\
-Resolves aliases/groups/flattened groups, runs access conditions, then invokes resolved command.
+	Resolves aliases/groups/flattened groups, runs access conditions, then invokes resolved command.
 
 - `#!ts interface:handle(entity?: any): commands.invoker`\
-Shortcut for `manager:handle(interface, entity)`.
+	Shortcut for `manager:handle(interface, entity)`.
 
 - `#!ts interface:condition(invoker, command, next)`\
-Global interface access hook. Default `next(true)`.
+	Global interface access hook.\
+	Default `next(true)`.
 
 - `#!ts interface:failure(invoker, command, err)`\
-Called for user-facing command failure reasons.
+	Called for user-facing command failure reasons.
 
 - `#!ts interface:error(invoker, command, critical)`\
-Called for internal/traceback failures.
+	Called for internal/traceback failures.
 
 ### Required Overrides
 
@@ -197,45 +206,47 @@ Argument utilities:
 Registered by `commands:baseline()`.
 
 - `#!ts number`\
-`tonumber` parse with `flags.min`, `flags.max`, `flags.round`, `flags.default`, `flags.optional`.
+	`tonumber` parse with `flags.min`, `flags.max`, `flags.round`, `flags.default`, `flags.optional`.
 
 - `#!ts string`\
-Supports quoted multi-word parsing; optional/default behavior.
+	Supports quoted multi-word parsing; optional/default behavior.
 
 - `#!ts select`\
-Single value from `flags.options`.
+	Single value from `flags.options`.
 
 - `#!ts multi`\
-Comma-separated values from `flags.options`; supports `flags.min`/`flags.max`.
+	Comma-separated values from `flags.options`; supports `flags.min`/`flags.max`.
 
 - `#!ts boolean`\
-Truthy only for `"1"` or `"true"` (string forms); otherwise false/default/optional path.
+	Truthy only for `"1"` or `"true"` (string forms); otherwise false/default/optional path.
 
 - `#!ts color`\
-Accepts `R,G,B[,A]` or hex `#RRGGBB[AA]`.
+	Accepts `R,G,B[,A]` or hex `#RRGGBB[AA]`.
 
 - `#!ts vector`\
-Accepts `X,Y,Z`.
+	Accepts `X,Y,Z`.
 
 - `#!ts angle`\
-Accepts `P,Y,R`.
+	Accepts `P,Y,R`.
 
 - `#!ts time`\
-Accepts absolute seconds or tokenized units (`y`, `mo`, `w`, `d`, `h`, `m`, `s`).\
-Helper exposed as `commands.to_seconds(value)`.
+	Accepts absolute seconds or tokenized units (`y`, `mo`, `w`, `d`, `h`, `m`, `s`).\
+	Helper exposed as `commands.to_seconds(value)`.
 
 - `#!ts player`\
-Supports selector expressions with RPN operators `+`, `-`, `!`, parentheses.\
-Supports prefixes:
-`@` aimed player, `^` self, `*` all, `$` steam id lookup, `#` usergroup, `&` radius, `?` random count.\
-Flags include `single`, `limit`, `filter`, `default`, `optional`.
+	Supports selector expressions with RPN operators `+`, `-`, `!`, parentheses.\
+	Supports prefixes:
+	`@` aimed player, `^` self, `*` all, `$` steam id lookup, `#` usergroup, `&` radius, `?` random count.\
+	Flags include `single`, `limit`, `filter`, `default`, `optional`.
 
 - `#!ts entity`\
-Same expression model as `player`, but for entities. Prefixes:
-`@` aimed entity, `^` self entity, `*` all entities, `#` class find, `$` entity index, `&` radius.
+	Same expression model as `player`, but for entities.\
+	Prefixes:
+	`@` aimed entity, `^` self entity, `*` all entities, `#` class find, `$` entity index, `&` radius.
 
 - `#!ts steam`\
-Accepts SteamID, SteamID64, or profile URL. `^` resolves invoker steamid64.
+	Accepts SteamID, SteamID64, or profile URL.\
+	`^` resolves invoker steamid64.
 
 #### Picker extension
 

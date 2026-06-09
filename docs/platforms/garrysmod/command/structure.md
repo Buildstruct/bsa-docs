@@ -218,4 +218,4 @@ Examples from `content/sv_fun.lua`:
 !rank ^ "Moderator" #00AAFF
 ```
 
-(`!` is only an example prefix. Actual prefixes are interface/config dependent.)
+(`!` is only an example prefix, actual prefixes are interface/config dependent.)

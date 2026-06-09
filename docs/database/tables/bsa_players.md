@@ -44,3 +44,12 @@ Reserved groups are protected by triggers.
 - Create normal players without assigning reserved groups.
 - Treat `group_id` as primary group only; additional groups belong in `bsa_player_groups`.
 - Do not expose reserved-group bypass to runtime platform code.
+
+## Interlink Behavior
+- `database.players:connected(account, secondaries)`
+- `database.players:disconnected(account, secondaries)`
+- `database.players:timeset(account, time_seconds)`
+- `database.players:primaryset(account, group, secondaries)`
+- `database.players:secondaryadded(account, group, secondaries)`
+- `database.players:secondaryremoved(account, group, secondaries)`
+- Special case: player/account flows are provider-specific in current GMod handlers.

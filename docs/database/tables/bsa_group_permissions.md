@@ -57,3 +57,9 @@ The tuple (`group_id`, `perm_id`, `service_id`, `provider_id`, `server_id`) must
 - Use `NULL` as wildcard scope in permission resolution.
 - Cache effective permission sets and invalidate via command signaling on writes.
 - Use idempotent inserts (`INSERT IGNORE` or upsert patterns) in distributed writers.
+
+## Interlink Behavior
+- `database.groups.permissions:add(link, group, permission, is_new_for_group_cache)`
+- `database.groups.permissions:remove(link, group, permission, fully_removed_from_group_cache)`
+- Special case: apply `provider_id` / `service_id` / `server_id` gates on receive.
+- Special case: ignore commands older than local permission-link `sync_time`.

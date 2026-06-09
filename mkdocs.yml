@@ -1,30 +1,63 @@
 site_name: Buildstruct Admen
 site_description: Monolithic community system for multi-platform communities.
+site_author: BlueShank
+repo_url: https://github.com/Buildstruct/bsa-docs
+repo_name: BSA Docs
+edit_uri: edit/develop/docs/
+copyright: Copyright © 2026 BlueShank
 docs_dir: docs
+hooks:
+  - hooks/llms_txt.py
+plugins:
+  - search
+  - macros:
+      module_name: docs/macros/main
 theme:
   name: material
+  logo: logo.svg
+  favicon: logo.svg
   palette:
     scheme: slate
+  features:
+    - content.action.view
+    - content.action.edit
 extra_css:
   - stylesheets/extra.css
 nav:
   - Home: index.md
   - Database:
-    - Providers: database/bsa_providers.md
-    - Services: database/bsa_services.md
-    - Servers: database/bsa_servers.md
-    - Groups: database/bsa_groups.md
-    - Players: database/bsa_players.md
-    - Player Groups: database/bsa_player_groups.md
-    - Permissions: database/bsa_permissions.md
-    - Group Permissions: database/bsa_group_permissions.md
-    - Accounts: database/bsa_accounts.md
-    - Punishments: database/bsa_punishments.md
-    - Commands: database/bsa_command.md
-    - Command Expected: database/bsa_command_expected.md
-    - Command Acknowledge: database/bsa_command_acknowledge.md
-    - Command Routines: database/bsa_command_routines.md
-    - Command Cleanup: database/bsa_command_cleanup.md
+    - Setup: database/setup.md
+    - Interlink: database/bsa_interlink.md
+    - Tables:
+        - Providers: database/tables/bsa_providers.md
+        - Services: database/tables/bsa_services.md
+        - Servers: database/tables/bsa_servers.md
+        - Groups: database/tables/bsa_groups.md
+        - Group Links: database/tables/bsa_group_links.md
+        - Players: database/tables/bsa_players.md
+        - Sessions: database/tables/bsa_sessions.md
+        - Player Groups: database/tables/bsa_player_groups.md
+        - Permissions: database/tables/bsa_permissions.md
+        - Group Permissions: database/tables/bsa_group_permissions.md
+        - Accounts: database/tables/bsa_accounts.md
+        - Punishments: database/tables/bsa_punishments.md
+        - Punishment Links: database/tables/bsa_punishment_links.md
+        - GeoIP: database/tables/bsa_geoip.md
+        - Addresses: database/tables/bsa_addresses.md
+        - GeoBlock: database/tables/bsa_geoblock.md
+        - GeoBlock Links: database/tables/bsa_geoblock_links.md
+        - Commands: database/tables/bsa_command.md
+        - Command Expected: database/tables/bsa_command_expected.md
+        - Command Acknowledge: database/tables/bsa_command_acknowledge.md
+    - Routines:
+        - Server Routines: database/routines/bsa_server_routines.md
+        - Command Routines: database/routines/bsa_command_routines.md
+        - Command Cleanup: database/routines/bsa_command_cleanup.md
+    - Plugins:
+        - Overview: database/plugins/overview.md
+        - Logging:
+            - Logging: database/plugins/logging/bsa_logging.md
+            - Logging Meta: database/plugins/logging/bsa_logging_meta.md
   - Platforms:
       - Garry's Mod:
           - Overview: platforms/garrysmod/index.md
@@ -38,6 +71,7 @@ nav:
               - Permissions: platforms/garrysmod/database/permissions.md
               - Players: platforms/garrysmod/database/players.md
               - Punishments: platforms/garrysmod/database/punishments.md
+              - GeoBlock: platforms/garrysmod/database/geoblock.md
               - Variables:
                   - Groups: platforms/garrysmod/database/variables/groups.md
                   - Permissions: platforms/garrysmod/database/variables/permissions.md
@@ -74,23 +108,82 @@ nav:
               - Datastore: platforms/garrysmod/libraries/datastore.md
               - Flux: platforms/garrysmod/libraries/flux.md
               - Paint: platforms/garrysmod/libraries/paint.md
+              - GeoIP: platforms/garrysmod/libraries/geoip.md
               - SFB: platforms/garrysmod/libraries/sfb.md
               - SFS: platforms/garrysmod/libraries/sfs.md
           - Modules:
-              - Plugins: platforms/garrysmod/modules/plugins.md
+              - Plugins:
+                  - Overview: platforms/garrysmod/modules/plugins.md
+                  - Creating A Plugin: platforms/garrysmod/modules/plugins/creating.md
+                  - Runtime Reference: platforms/garrysmod/modules/plugins/reference.md
+                  - Curated Plugins: platforms/garrysmod/modules/plugins/curated.md
               - Repr: platforms/garrysmod/modules/repr.md
+          - Plugins:
+              - Currency:
+                  - Overview: platforms/garrysmod/plugins/currency/index.md
+                  - NSS: platforms/garrysmod/plugins/currency/nss.md
+              - Logging: platforms/garrysmod/plugins/logging.md
       - SourceMod:
           - Overview: platforms/source/index.md
+      - Source.NET:
+          - Overview: platforms/sourcenet/index.md
+      - Website:
+          - Overview: platforms/website/index.md
+          - API:
+              - Overview: platforms/website/api/index.md
+              - Public:
+                  - Overview: platforms/website/api/public/overview.md
+                  - Accounts: platforms/website/api/public/accounts.md
+                  - Groups: platforms/website/api/public/groups.md
+                  - Permissions: platforms/website/api/public/permissions.md
+                  - Providers: platforms/website/api/public/providers.md
+                  - Punishments: platforms/website/api/public/punishments.md
+                  - Servers: platforms/website/api/public/servers.md
+                  - Services: platforms/website/api/public/services.md
+              - Private:
+                  - Accounts: platforms/website/api/private/accounts.md
+                  - Groups: platforms/website/api/private/groups.md
+                  - Permissions: platforms/website/api/private/permissions.md
+                  - Providers: platforms/website/api/private/providers.md
+                  - Punishments: platforms/website/api/private/punishments.md
+                  - Servers: platforms/website/api/private/servers.md
+                  - Services: platforms/website/api/private/services.md
+                  - Commands: platforms/website/api/private/commands.md
+          - Plugins:
+              - Overview: platforms/website/plugins/index.md
+              - Creating A Plugin: platforms/website/plugins/creating.md
+              - Context Reference: platforms/website/plugins/context.md
+              - Currency: platforms/website/plugins/currency.md
+      - S&Box:
+          - Overview: platforms/s&box/index.md
+      - Rust:
+          - Overview: platforms/rust/index.md
+      - Minecraft:
+          - Overview: platforms/minecraft/index.md
+      - Terraria:
+          - Overview: platforms/terraria/index.md
+      - Hytale:
+          - Overview: platforms/hytale/index.md
+      - Project Zomboid:
+          - Overview: platforms/pzomboid/index.md
 markdown_extensions:
   - admonition
   - attr_list
   - def_list
   - footnotes
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
   - pymdownx.details
   - pymdownx.highlight
   - pymdownx.inlinehilite
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.progressbar
+  - pymdownx.smartsymbols
   - pymdownx.escapeall:
       hardbreak: true
   - toc:

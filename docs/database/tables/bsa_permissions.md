@@ -24,3 +24,10 @@ CREATE TABLE `bsa_permissions` (
 - Treat `name` as immutable contract key across all platforms.
 - Cache permission catalogs locally to avoid frequent full-table reads.
 - On permission create/update/delete, propagate cache invalidation via command signaling.
+
+## Interlink Behavior
+- `database.permissions:add(permission)`
+- `database.permissions:remove(permission)`
+- `database.permissions:rename(permission, old_name, new_name)`
+- `database.permissions:realias(permission, old_alias, new_alias)`
+- Special case: ignore commands older than local permission `sync_time`.

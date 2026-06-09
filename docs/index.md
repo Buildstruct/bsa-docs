@@ -1,41 +1,75 @@
-# BSA
+# :wave: Home
 
-:wave: Hello and welcome to Buildstruct Admen.\
-A monolithic community system for multi-platform communities.\
-As long as any platform supports SQL connectors, this system will work anywhere.
+**BSA** is a community management system built around a single SQL database that every platform connects to directly.\
+Player accounts, groups, permissions, and punishments all live in that shared database, not in per-server configs or a reporting layer on top.
 
-BlueShank - Project Leader, Programmer, Library, Database\
-Bonyoze - Project Maintainer, BSU Acquisition, Player Picker Prefixes\
-Srlion - Library SFS, Library SFB\
-Buildstruct - Development Environments, Developer Assistants
+Most multi-platform tools work by wrapping a console or HTTP reporter around your game servers.\
+BSA instead integrates at the platform level (Lua in Garry's Mod, SourcePawn in SourceMod), giving each server direct read/write access to the full community state.
 
-!!! danger
+This means a group change, a ban, or a player record is immediately available across every connected server and platform.
+
+- **no sync scripts**
+- **no external agents**
+- **no connection dependencies**
+
+This also means, you get to decide how things work at the platform level, allowing for additional plugins that affect the entire community.
+
+## Overall Progress
+We are actively working on supporting as many plaforms as possible & maintaining them.
+
+!!! abstract
 	This site is still under active development & project changes.\
 	You may find issues with this site, we recommend you report them when found.
 
-!!!abstract
-    We are still making major changes to this section, as development is not considered released.\
-    **BASELINE 1.0** is in relation to the release to Buildstruct, not public.
+	✅ **Database Technical Progress**
+	[=100% "100%"]{: .candystripe .candystripe-animate}
 
-## Database
-The actual functionality behind BSA is highly dependant on the database.\
-All other projects simply attach to the database to function properly, without it everything breaks.
+	🛠️ **Database Documentation Progress**
+	[=90% "90%"]{: .candystripe .candystripe-animate}
 
-## Platforms
-All of BSA is separated into platform-specific projects, except for the database.\
-Each platform must adhere to BSA's database design, any deviations may cause other platform projects to fail.
+	🛠️ **Platform Support Progress**
+	[=16% "16%"]{: .candystripe .candystripe-animate}
 
-!!! warning
-	We recommend that those looking to install do not use platforms that aren't verified by us.\
-	This leaves you open to attacks directly to the database itself!
+## Contributors
+- BlueShank - Project Leader, Architect, Full-Stack, Database
+- Srlion - Garry's Mod Platform Library SFS & SFB
+- Bonyoze - Garry's Mod Platform Contributor
+- Textstack - Logo Artwork
+
+Thanks to Buildstruct for: Development Environments, Developer Assistants
 
 ## Development Cycle
-There are some limits to our capabilities to developing BSA to its fullest potential:
+Currently it's a "One-Man Army" Development Flow, meaning development is significantly slowed compared to a full team.\
+However we have environments setup and self-hosted solutions to keep-up with possible requests:
 
-- "One-Man Army" Development Flow
 - Buildstruct Development Environments
+- Self-Hosted Pelican Nodes
 
-Because of this, issue trackers and pull requests maybe significantly slowed compared to a full team.
+---
+
+### AI/LLM Generation
+We allow limited AI/LLM usage as an assistive tool, not as a replacement for authorship, understanding, or review.\
+If AI/LLM tools were used during a contribution, that usage must be disclosed clearly.\
+**Pull Requests, Trackers, and Issues that are primarily AI-generated, spammy, or submitted without human verification will be closed without further notice**.
+
+Contributors are expected to understand, verify, and stand behind what they submit.\
+If AI/LLM tools helped with your work, say so and explain the extent of that usage.
+
+#### Allowed
+
+- Explaining concepts and helping understand the codebase.
+- Search and navigation of monolithic codebases.
+- Drafting documentation and inline function documentation that is reviewed and corrected by a human.
+- Research and conceptualization of a feature.
+- Small-scale assistance with rewriting, summarizing, or brainstorming.
+
+#### Denied
+
+- Hiding or lying about AI/LLM usage in contributions.
+- Creating Pull Requests, Trackers, or Issues directly from AI output without proper human verification or understanding.
+- Submitting code, docs, or reports you cannot explain, maintain, or defend.
+
+---
 
 ### Contributing
 We allow everyone within reason to contribute to our work on BSA.\
@@ -69,27 +103,3 @@ For future updates and expectancy on changes we recommend keeping track of this.
 
 [Buildstruct Admen Project Tracker](https://github.com/orgs/Buildstruct/projects/4)
 (This may be private)
-
-## Project Domains
-
-### Core
-[BSA Database - CORE](https://github.com/Buildstruct/bsa-core-database)
-
-- Database playbook for setting up the SQL tables and necessary data.
-
-### Garry's Mod
-[BSA Platform - GMOD](https://github.com/Buildstruct/bsa-platform-gmod)
-
-- Core platform for Garry's Mod
-
-[BSA Platform Plugins - GMOD](https://github.com/Buildstruct/bsa-plugin-gmod)
-
-- Contains a collection of plugins by contributors of BSA.
-
-[BSA Platform Plugins (PRIVATE) - GMOD](https://github.com/Buildstruct/bsa-plugin-gmod-private)
-
-- Since this is specific to buildstruct we are reserving the right to this.
-
-### SourceMod
-Do note sourcemod supports a wide variety of games under source engine.\
-[BSA Platform - SM](https://github.com/Buildstruct/bsa-plugin-gmod-private)

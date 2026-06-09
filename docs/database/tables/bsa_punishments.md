@@ -13,9 +13,6 @@ CREATE TABLE `bsa_punishments` (
     `player_id` BIGINT UNSIGNED NOT NULL,
     `invoker_id` BIGINT UNSIGNED NOT NULL,
     `revoker_id` BIGINT UNSIGNED NULL,
-    `service_id` BIGINT UNSIGNED NULL,
-    `provider_id` BIGINT UNSIGNED NULL,
-    `server_id` BIGINT UNSIGNED NULL,
     `type` VARCHAR(64) NOT NULL,
     `reason` TEXT NOT NULL,
     `duration` BIGINT UNSIGNED NULL,
@@ -26,21 +23,6 @@ CREATE TABLE `bsa_punishments` (
         END
     ) STORED,
     `created_at` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-
-    CONSTRAINT fk_pun_providers
-        FOREIGN KEY (`provider_id`) REFERENCES `bsa_providers`(`provider_id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-
-    CONSTRAINT fk_pun_services
-        FOREIGN KEY (`service_id`) REFERENCES `bsa_services`(`service_id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-
-    CONSTRAINT fk_pun_servers
-        FOREIGN KEY (`server_id`) REFERENCES `bsa_servers`(`server_id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
 
     CONSTRAINT fk_pun_player
         FOREIGN KEY (`player_id`) REFERENCES `bsa_players`(`player_id`)
@@ -65,14 +47,15 @@ CREATE TABLE `bsa_punishments` (
 - player_id - player being punished.
 - invoker_id - player who created the punishment.
 - revoker_id - player who revoked the punishment, if any.
-- service_id - service scope; null means all services.
-- provider_id - provider scope; null means all providers.
-- server_id - server scope; null means all servers.
 - type - punishment type (`ban`, `warn`, `mute`, etc).
 - reason - reason for the punishment.
 - duration - duration in seconds; null means permanent.
 - expires_at - computed expiration timestamp for timed punishments.
 - created_at - timestamp for when the punishment was created.
+
+!!! info
+    Scope (provider/service/server) is stored in [bsa_punishment_links](bsa_punishment_links.md), not on this table.\
+    A punishment applies to a platform only if it has at least one link covering that platform's identity.
 
 ## Notes
 The `idx_active_punishments` index supports fast lookup of active punishments by player.
@@ -81,4 +64,11 @@ The `idx_active_punishments` index supports fast lookup of active punishments by
 - Cache active punishments in memory per platform with short refresh windows.
 - Query active punishments using `expires_at IS NULL OR expires_at > NOW(6)`.
 - Treat `expires_at` as computed output; write only `duration` and `created_at` inputs.
+- Scope coverage is determined by `bsa_punishment_links`; use `EXISTS` subqueries against that table when filtering by scope.
 - Broadcast invalidation commands after punishment create/update/revoke events.
+
+## Interlink Behavior
+- `database.punishments:add(punishment, links)`
+- `database.punishments:revoke(punishment)`
+- `database.punishments:remove(punishment)`
+- `database.punishments:update(punishment)`

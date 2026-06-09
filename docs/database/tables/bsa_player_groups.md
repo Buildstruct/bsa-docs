@@ -36,3 +36,8 @@ Reserved groups cannot be linked without explicit SQL-session bypass.
 - Use `INSERT IGNORE` for idempotent grant operations.
 - Remove only specific memberships instead of replacing full sets in concurrent systems.
 - Recompute cached effective groups/permissions after membership changes.
+
+## Interlink Behavior
+- Secondary memberships are replicated through player commands (no `bsa_player_groups:*` channel).
+- `database.players:secondaryadded(account, group, secondaries)`
+- `database.players:secondaryremoved(account, group, secondaries)`

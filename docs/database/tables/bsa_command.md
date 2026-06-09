@@ -31,6 +31,9 @@ CREATE TABLE `bsa_command` (
 - Keep payloads compact; large payloads should be fetched by ID from dedicated tables.
 - Treat this table as signaling only, not durable audit/event storage.
 
+See [bsa_command_routines](../routines/bsa_command_routines.md) for more information on the stored procedures.\
+See [bsa_command_cleanup](../routines/bsa_command_cleanup.md) for more information on removal of stale commands.
+
 ## Common Command Flow
 
 ### Sender inserts command and fanout targets

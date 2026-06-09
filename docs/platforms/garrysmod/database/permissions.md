@@ -1,12 +1,17 @@
-# Permissions
+# {{ realm("server") }} Permissions
 Read/write interface for global permission templates in `bsa_permissions`, with interlink replication and local cache updates.
+
+!!! info
+	See [core/database/tables/permissions.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/database/tables/permissions.lua) for the actual design implementation.\
+	See [bsa_permissions](../../../database/tables/bsa_permissions.md) for implementation & design requirements.
 
 ## Functions
 - `#!ts permissions:sync(callback?: function(ok: boolean, err?: string))`\
 Reloads all permissions into cache (`perm_id` and `name` keys).
 
 - `#!ts permissions:add(name: string, alias?: string, callback?: function(permission|false, err?: string))`\
-Creates a permission if missing. A temporary in-memory guard prevents concurrent duplicate inserts for the same name.
+Creates a permission if missing.\
+A temporary in-memory guard prevents concurrent duplicate inserts for the same name.
 
 - `#!ts permissions:remove(name_id: string|number, callback?: function(permission|false, err?: string))`\
 Deletes by name or `perm_id`.
