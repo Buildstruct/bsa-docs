@@ -168,6 +168,10 @@ Instances are created through the static helpers above or the underlying class c
 		Significantly slower than `toBinary()` or `toHex()`!\
 		Decimal conversion requires repeated division across the internal word array.
 
+- `#!ts nss:toComma(): string`\
+	Returns a decimal string grouped with thousands separators (e.g. `"1,000,000"`).\
+	Shares `toString()`'s decimal-conversion cost.
+
 - `#!ts nss:toBinary(): string`\
 	Returns a binary string representation.
 
@@ -193,6 +197,12 @@ Instances are created through the static helpers above or the underlying class c
 	Returns a illion-short-scale named string (e.g. `"1.2M"`).\
 	`decimals` defaults to `1`.\
 	Values below one thousand are returned as plain decimal.
+
+- `#!ts nss:toDisplayName(digits?: number, decimals?: number, short?: boolean): string`\
+	Returns a comma-grouped decimal (e.g. `"100,000"`) while the value fits within `digits` digits.\
+	Once it exceeds that, falls back to `toShortNamed(decimals)` when `short` is `true`, otherwise `toNamed(decimals)`.\
+	`digits` defaults to `6`.\
+	`decimals` defaults to `1`.
 
 ## Bitwise
 All operands are coerced with `nss.fromAny(...)` and return new NSS objects.
@@ -249,3 +259,17 @@ All operands are coerced with `nss.fromAny(...)` and return new NSS objects.
 - `#!ts nss:factorial(limit?: number): nss.object`\
 	Returns `n!`.\
 	When `limit` is provided, multiplication stops after that many iterations.
+
+## Operators
+Arithmetic dispatches on an NSS left operand and coerces the right with `nss.fromAny(...)`.
+Comparisons require **both** operands to be NSS objects, since Lua only invokes the metamethod when both share it.
+
+- `a + b` → `a:add(b)`
+- `a - b` → `a:sub(b)`
+- `a * b` → `a:mul(b)`
+- `a / b` → `a:div(b)` (integer quotient)
+- `a % b` → `a:mod(b)`
+- `a ^ b` → `a:pow(b)`
+- `-a` → `a:negate()`
+- `a == b`, `a < b`, `a <= b` → signed comparison via `a:compare(b)`
+- `tostring(a)` → `"nss: "` followed by `a:toScientific()`

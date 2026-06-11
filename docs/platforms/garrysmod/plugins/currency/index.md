@@ -40,7 +40,7 @@ This currency system also specializes in keeping multi-sessions supported via ca
 	Atomically safe afford with spending check for if a player is attempting to make a purchase.\
 	This will attempt to deduct currency if they have any.
 
-- {{ realm("server") }} `#!ts currency:escrow(target: Player | Steam, type: string, cost: nss.object | number | string, callback: function(status: boolean, escrow_id?: number))`\
+- {{ realm("server") }} `#!ts currency:escrow(target: Player | Steam, type: string, cost: nss.object | number | string, callback: function(status: boolean, escrow_id?: number | string))`\
 	Atomic & guarded spending with a lifetime.\
 	Upon server reboot these are refunded.
 
