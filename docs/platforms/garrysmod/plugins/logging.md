@@ -2,11 +2,6 @@
 A multi-use log system for administrators to view events that have transpired.\
 Supports flat-file storage, SQL deep-storage, and real-time interface delivery.
 
-!!! abstract
-	We are working on getting this supported on other platforms via dedicated plugins.\
-	This section will be rewritten and moved once we do so.
-	[=40% "40%"]{: .candystripe .candystripe-animate}
-
 !!! note
 	This adds a dedicated table to BSA under `Logging` when enabled.
 

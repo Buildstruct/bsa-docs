@@ -39,7 +39,7 @@ Returns all currency types known to the website. Cached — refreshed every 5 se
 ```json
 {
   "types": [
-    { "tag": "gear", "alias": "Gear" }
+    "gear"
   ]
 }
 ```
@@ -165,7 +165,6 @@ Returns all currency balances for a player across all registered types.
   "balances": [
     {
       "type":        "gear",
-      "meta":        { "tag": "gear", "alias": "Gear" },
       "value":       "250",
       "named":       "250",
       "short_named": "250",

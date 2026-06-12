@@ -28,7 +28,7 @@ We are actively working on supporting as many plaforms as possible & maintaining
 	[=90% "90%"]{: .candystripe .candystripe-animate}
 
 	🛠️ **Platform Support Progress**
-	[=16% "16%"]{: .candystripe .candystripe-animate}
+	[=25% "25%"]{: .candystripe .candystripe-animate}
 
 ## Contributors
 - BlueShank - Project Leader, Architect, Full-Stack, Database

@@ -122,6 +122,7 @@ nav:
               - Currency:
                   - Overview: platforms/garrysmod/plugins/currency/index.md
                   - NSS: platforms/garrysmod/plugins/currency/nss.md
+              - Inventory: platforms/garrysmod/plugins/inventory.md
               - Logging: platforms/garrysmod/plugins/logging.md
       - SourceMod:
           - Overview: platforms/source/index.md
@@ -154,6 +155,7 @@ nav:
               - Creating A Plugin: platforms/website/plugins/creating.md
               - Context Reference: platforms/website/plugins/context.md
               - Currency: platforms/website/plugins/currency.md
+              - Inventory: platforms/website/plugins/inventory.md
       - S&Box:
           - Overview: platforms/s&box/index.md
       - Rust:
