@@ -81,7 +81,21 @@ Inherits low-level write methods from `sfb.Writer`.
 	Appends another encoder's write stack onto this one.
 
 - `#!ts flux.encoder:reset(): self`\
-	Clears current write stack/buffer.
+	Clears current write stack/buffer (also drops any compile cache).
+
+- `#!ts flux.encoder:cachable(state?: boolean): self`\
+	Toggles compile caching (default disabled, omitting `state` enables it).\
+	Disabling drops any existing cache.
+
+- `#!ts flux.encoder:cached(): boolean`\
+	Returns whether caching is enabled and a compiled payload is currently cached.
+
+- `#!ts flux.encoder:uncache(): self`\
+	Drops the cached payload without disabling caching.
+
+- `#!ts flux.encoder:compile(): string`\
+	Returns the compressed payload (`util.Compress` of the encoded stack).\
+	When caching is enabled, reuses the cached result until the write stack length changes.
 
 - `#!ts flux.encoder:reliable(state: boolean): self`\
 	Sets reliability mode (`true` = reliable, `false` = unreliable).

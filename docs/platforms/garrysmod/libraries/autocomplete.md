@@ -25,7 +25,8 @@ Caching/networking and permission rules are layered on by the consumer through t
 
 - `#!ts autocomplete:complete(input: string, ply?: Player): result`\
 	Resolves input into a [result](#result).\
-	`ply` defaults to `LocalPlayer()` clientside; when set, entries are filtered through `:allowed`.\
+	`ply` defaults to `LocalPlayer()` clientside.\
+	When set, entries are filtered through `:allowed`.\
 	Calling the object directly is shorthand for this.
 
 - `#!ts autocomplete:suggest(cmd: string, argStr: string): string[]`\
@@ -44,15 +45,18 @@ Caching/networking and permission rules are layered on by the consumer through t
 	Registers a custom argument-value completer for a command path.\
 	`get`/`remove` manage it.
 
+- `#!ts autocomplete:prefix(text: string, prefixes: string[]): string, string | false`\
+	Matches `text` against a list of prefixesm, returns the matched prefix and the trailing remainder, or `false` if none match.
+
 - `#!ts autocomplete:ensure()`\
 	Seam called before each lookup, hook lazy fetching/caching here.\
 	No-op by default.
 
 - `#!ts autocomplete:allowed(ply, entry: table): boolean`\
-	Seam to hide entries from completions; returns `true` by default.
+	Seam to hide entries from completions, returns `true` by default.
 
 - `#!ts autocomplete:resolve(tokens: string[]): node?, consumed: number, path: string[], level: table?`\
-	Walks the tree by tokens; `level` is the child map for further suggestions.
+	Walks the tree by tokens, `level` is the child map for further suggestions.
 
 - `#!ts autocomplete:shadow_of(node, path): string` / `#!ts autocomplete:descriptors(node): descriptor[]` / `#!ts autocomplete:fill_children(level, base, partial, ply, out)`\
 	Lower-level building blocks used by `:complete`.
