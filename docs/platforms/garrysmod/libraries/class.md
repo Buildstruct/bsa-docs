@@ -6,6 +6,9 @@ Extremely light weight and designed to just be simple, nothing crazy.
 !!! info
 	See [core/libraries/class.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/class.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated table to BSA as `Class`.
+
 Classes can be constructed in two ways: `namecall` or `:new()`.\
 Both of which allows you to pass arguments into the constructor.\
 However, `:new()` can be overwritten if you need to.

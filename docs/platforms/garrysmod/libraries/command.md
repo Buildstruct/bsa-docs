@@ -4,6 +4,9 @@ Runtime command tree system with pluggable interfaces, argument parsing/validati
 !!! info
 	See [core/libraries/command.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/command.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Commands`.
+
 ## Functions
 
 - `#!ts commands:new(): commands.object`\

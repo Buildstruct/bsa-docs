@@ -101,6 +101,7 @@ nav:
                   - Tooltip: platforms/garrysmod/interface/classes/tooltip.md
                   - Tree: platforms/garrysmod/interface/classes/tree.md
           - Libraries:
+              - Autocomplete: platforms/garrysmod/libraries/autocomplete.md
               - Class: platforms/garrysmod/libraries/class.md
               - Command: platforms/garrysmod/libraries/command.md
               - Configurate: platforms/garrysmod/libraries/configurate.md

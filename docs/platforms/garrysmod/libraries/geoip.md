@@ -4,6 +4,9 @@ Resolves IP addresses to ISP, AS, and organization strings via external APIs wit
 !!! info
 	See [core/libraries/geoip.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/geoip.lua) and [core/modules/geoip.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/modules/geoip.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `GeoIP`.
+
 ## Functions
 
 - `#!ts geoip:lookup(address: string, callback: function(geo|false, err?: string))`\

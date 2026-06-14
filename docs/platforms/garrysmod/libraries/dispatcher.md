@@ -5,6 +5,9 @@ This solves the problem of needing to have hooks everywhere and complicated call
 !!! info
 	See [core/libraries/dispatcher.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/dispatcher.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Dispatcher`.
+
 Simply create a dispatcher, give it a name, and attach as many callbacks as you need.\
 Names on the dispatchers themselves are for tracking purposes when debugging.
 

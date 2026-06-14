@@ -9,6 +9,9 @@ One network string wrapper for multi-channel messaging with SFB/SFS serializatio
 	We recommend using Unreliable for non-critical data, like log streaming for example.\
 	Doing so relieves pressure on the reliable channel which is used way too often by others.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Flux`.
+
 ## Functions
 
 - `#!ts flux:new(tag: string): flux.object`\

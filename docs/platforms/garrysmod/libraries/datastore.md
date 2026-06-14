@@ -8,6 +8,9 @@ Database manager abstraction over multiple SQL engines (currently `sqlite` and `
 	We highly recommend using transactions and prepared statements for input-based queries.\
 	Not doing so will leave you susceptible to SQL injection attacks due to human error.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Datastore`.
+
 ## Functions
 
 - `#!ts datastore:new(engine: "sqlite" | "mysqloo", config?: table): datastore.object`\

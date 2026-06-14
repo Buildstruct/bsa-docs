@@ -6,6 +6,9 @@ Created by Srlion @ https://github.com/Srlion/sfs
 !!! info
 	See [core/libraries/sfs.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/sfs.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `SFS`.
+
 Flux integration:
 
 - `flux.encoder:table(...)` and `flux.encoder:any(...)` call `sfs.encode(...)`.

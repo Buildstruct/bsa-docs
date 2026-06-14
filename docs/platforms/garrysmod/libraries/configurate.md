@@ -8,6 +8,9 @@ Hierarchical, class-driven configuration tree with runtime validation, import/ex
 	Due to how configurate stores data of non-referenced configs, the size may increase from adding/removing configs.\
 	You can clean them by calling `prune` which is for deleting the non-referenced configs, this will however delete that data forever.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Config`.
+
 ## Functions
 
 - `#!ts configurate:new(): configurate.object`\

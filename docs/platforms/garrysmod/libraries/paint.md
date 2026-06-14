@@ -4,6 +4,9 @@ Utility wrappers around `surface`, `draw`, `render`, and `cam` APIs for common U
 !!! info
 	See [core/libraries/paint.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/paint.lua) for the actual design implementation.
 
+!!! note
+	This adds a dedicated & constructed table to BSA as `Paint`.
+
 ## Functions
 
 - `#!ts paint.color(r?: number | Color, g?: number, b?: number, a?: number)`\
