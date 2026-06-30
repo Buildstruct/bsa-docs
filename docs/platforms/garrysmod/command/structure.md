@@ -28,6 +28,11 @@ Common flags available across many argument types:
 - `single = true` forces single match for set-based targets.
 - `limit = n` max count for set-based targets.
 - `filter = "..."` blocks specific picker prefixes for `player`/`entity`.
+- `gated = true` (on `player`) filters resolved targets through the invoker's `can` check, dropping any the invoker may not act on.
+
+`options` and `default` may be **functions** instead of static values.\
+They are resolved asynchronously at validation time: the function receives `(invoker, callback, flags)` and must call `callback(true, value)` or `callback(false, err)`.\
+Use this for option lists that depend on runtime state.
 
 ## Built-In Argument Types
 
@@ -102,12 +107,15 @@ Formats:
 - `R,G,B,A`
 - `#RRGGBB`
 - `#RRGGBBAA`
+- `0xRRGGBB`
+- `0xRRGGBBAA`
 
 Examples:
 
 - `255,0,0`
 - `255,0,0,128`
 - `#00FF00`
+- `0x00FF00`
 
 ---
 

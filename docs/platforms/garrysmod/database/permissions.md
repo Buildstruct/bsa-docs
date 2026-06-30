@@ -33,7 +33,7 @@ Returns full cache when omitted, otherwise a single permission.
 - `#!ts permissions.synced()`
 
 ## Notes
-- On `permissions.synced`, core bootstrap permissions are ensured: `garrysmod.admin`, `garrysmod.superadmin`, `scope.server`, `scope.service`, `scope.provider`.
+- On `permissions.synced`, the core bootstrap permissions `garrysmod.admin` and `garrysmod.superadmin` are ensured, then groups are re-synced.
 - Changes are broadcast with interlink channels under `database.permissions:*` and reflected on receivers if event timestamps are newer than local `sync_time`.
 
 ## References

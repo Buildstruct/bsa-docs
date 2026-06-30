@@ -47,8 +47,9 @@ def on_post_build(config):
     site_name = config.get("site_name", "Documentation")
     site_description = config.get("site_description", "")
 
-    _write_llms_txt(site_dir, site_url, site_name, site_description)
-    _write_llms_full_txt(site_dir, site_url, site_name)
+    # disabled for now
+    #_write_llms_txt(site_dir, site_url, site_name, site_description)
+    #_write_llms_full_txt(site_dir, site_url, site_name)
 
 
 # ---------------------------------------------------------------------------

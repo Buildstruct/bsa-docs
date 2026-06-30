@@ -25,6 +25,9 @@ Utility wrappers around `surface`, `draw`, `render`, and `cam` APIs for common U
 - `#!ts paint.blurpnl(panel: Panel, passes?: number)`\
 	Draws panel-local blur by offsetting the full-screen blur texture.
 
+- `#!ts paint.darken(color: Color, factor?: number): Color`\
+	Returns a copy of `color` with its RGB scaled by `factor` (clamped `0..1`, default `0.5`); alpha is preserved.
+
 ## Rect
 
 - `#!ts paint.rect.sweep(x: number, y: number, w: number, h: number, size: number, progress: number, rotation?: number)`\
@@ -41,6 +44,12 @@ Utility wrappers around `surface`, `draw`, `render`, and `cam` APIs for common U
 
 - `#!ts paint.rect.outline(x: number, y: number, w: number, h: number, thickness?: number, rotation?: number)`\
 	Draws outline outside/around the rectangle bounds.
+
+- `#!ts paint.rect.loading(x: number, y: number, w: number, h: number, fill_color: Color, outline_color: Color, inline_color: Color, bar_color: Color, delta: number)`\
+	Draws a determinate loading bar centered at `(x, y)`; `delta` (`0..1`) sets the fill amount.
+
+- `#!ts paint.rect.awaiting(x: number, y: number, w: number, h: number, fill_color: Color, outline_color: Color, inline_color: Color, bar_color: Color, speed?: number)`\
+	Draws an indeterminate animated bar centered at `(x, y)`; `speed` controls the sweep rate.
 
 ## Gradient
 Directional helpers using VGUI gradient textures.
@@ -102,6 +111,9 @@ Directional helpers using VGUI gradient textures.
 	Returns text size of `"B"` for active font.
 
 ### Text.Outline
+
+- `#!ts paint.text.outline.self(t: "left" | "center", x: number, y: number, ...: string | Color)`\
+	Lower-level building block: draws a black 1px four-corner outline using the `text[t]` aligner, then the foreground text. The aligned wrappers below call this.
 
 - `#!ts paint.text.outline.left(x: number, y: number, ...: string | Color)`\
 	Draws black 1px four-corner outline, then foreground text.

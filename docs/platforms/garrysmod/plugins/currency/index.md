@@ -25,13 +25,13 @@ This currency system also specializes in keeping multi-sessions supported via ca
 	Gets the current amount of currency on a player.\
 	Not providing a callback will assume an active player.
 
-- `#!ts currency:has(target: Player | Steam, type: string, value: nss.object | number | string, callback?: function(status: boolean, err?: string)): nss.object`\
-	Gets the current amount of currency on a player.\
-	Not providing a callback will assume an active player.
+- `#!ts currency:has(target: Player | Steam, type: string, value: nss.object | number | string, callback?: function(status: boolean, err?: string)): boolean`\
+	Checks whether a player's balance is at least `value`.\
+	Not providing a callback will assume an active player and return the result synchronously.
 
-- `#!ts currency:add(target: Player | Steam, type: string, value: nss.object | number | string, callback?: function(status: boolean, err?: string))`\
-	Adds to current amount of currency on a player.\
-	Not providing a callback will assume an active player.
+- `#!ts currency:add(target: Player | Steam, type: string, value: nss.object | number | string, callback?: function(new_value: nss.object | false))`\
+	Adds to the current amount of currency on a player (`value` may be negative).\
+	The callback receives the resulting balance as an `nss.object`, or `false` on failure — not a boolean. Not providing a callback will assume an active player and return the new balance.
 
 - `#!ts currency:afford(target: Player | Steam, type: string, cost: nss.object | number | string, callback: function(status: boolean, err?: string))`\
 	Atomically safe afford check for if a player can make a purchase.
@@ -40,17 +40,24 @@ This currency system also specializes in keeping multi-sessions supported via ca
 	Atomically safe afford with spending check for if a player is attempting to make a purchase.\
 	This will attempt to deduct currency if they have any.
 
-- {{ realm("server") }} `#!ts currency:escrow(target: Player | Steam, type: string, cost: nss.object | number | string, callback: function(status: boolean, escrow_id?: number | string))`\
-	Atomic & guarded spending with a lifetime.\
-	Upon server reboot these are refunded.
+- {{ realm("server") }} `#!ts currency:escrow(target: Player | Steam, type: string, cost: nss.object | number | string, opts?: {durable?: boolean}, callback: function(status: boolean, escrow_id?: number | string))`\
+	Atomic & guarded spending with a lifetime. Deducts `cost` and returns an `escrow_id` to resolve later.\
+	Non-durable escrows are refunded on server reboot; pass `opts.durable = true` to make the hold survive a restart (used by trade, auction, and bazaar).
 
 - {{ realm("server") }} `#!ts currency:refund(escrow_id: number, callback?: function(status: boolean, err?: string))`\
 	Refunds an escrow that was generated.\
 	This invalidates the escrow id.
 
 - {{ realm("server") }} `#!ts currency:commit(escrow_id: number, callback?: function(status: boolean, err?: string))`\
-	Commits an escrow that was generated.\
+	Commits an escrow that was generated — the held funds are permanently consumed.\
 	This invalidates the escrow id.
+
+- {{ realm("server") }} `#!ts currency:merge(escrow_id: number, target: Player | Steam, callback?: function(status: boolean, err?: string))`\
+	Credits a held escrow to `target` (which may differ from the original payer) and invalidates the escrow id.\
+	Creates the recipient's currency record if they don't have one yet.
+
+- {{ realm("server") }} `#!ts currency:transfer(from: Player | Steam, to: Player | Steam, type: string, cost: nss.object | number | string, callback?: function(status: boolean, err?: string))`\
+	Convenience wrapper that escrows from `from` and merges into `to`. On merge failure the funds are automatically refunded to `from`.
 
 - {{ realm("server") }} `#!ts currency:top(type: string, limit: number, callback: function(data: table[] | false, err?: string))`\
 	Returns the top `limit` players by balance for the given currency type, ordered highest-first.\
@@ -58,6 +65,11 @@ This currency system also specializes in keeping multi-sessions supported via ca
 
 - {{ realm("server") }} `#!ts currency:inflation(type: string, callback: function(total: nss.object | false, err?: string))`\
 	Returns an **estimated** total of the given currency type currently in circulation across all players.
+
+## Hooks
+
+- `BSA.Currency:changed(entity: Player, name: string, old: nss.object, new: nss.object)`\
+	Fired on both realms whenever a currency variable is written — including server-side `set`/`add` and the initial client sync. `name` is the currency type key.
 
 ## Example
 

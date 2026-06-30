@@ -8,7 +8,7 @@ Commands are built by creating groups and attaching commands.
 ```lua
 local group = BSA.Commands:group("fun")
 	:description("Fun commands")
-	:flattenize(true) -- flatten this down to root, you can still do `fun slay` however.
+	:flattenize() -- flatten this down to root, you can still do `fun slay` however.
 
 group:add("slay")
 	:alias("kill")
@@ -21,6 +21,27 @@ group:add("slay")
 
 While you don't have to create a group and just add it directly on root, it is recommended to be within a group.
 
+`flattenize()` takes no arguments.\
+`group:add(name)` is an alias of `group:command(name)`.
+
+## Asynchronous Logic
+
+Command callbacks and argument resolvers run inside a coroutine, so you can suspend on async work (a DB read, a permission check) and resume with the result.\
+Use `invoker:await(fn)` (or `BSA.Commands:await(fn)`), where `fn(resolve)` drives the callback, `await` returns whatever you pass to `resolve`.
+
+```lua
+group:add("balance")
+	:callback(function(invoker)
+		local value = invoker:await(function(resolve)
+			BSA.Currency:get(invoker.entity, "credits", resolve)
+		end)
+		invoker:reply("You have " .. value:toString())
+	end)
+```
+
+Await throws if not resolved within the timeout (30s by default).\
+`invoker:can`, `invoker:has`, and `invoker:scope` are dual-mode, pass a callback for CPS style, or omit it to await the result inline.
+
 ## Interface Layer
 
 Input routes are implemented as interfaces:
@@ -29,7 +50,9 @@ Input routes are implemented as interfaces:
 - `console`: console command entry (`sv_console.lua`)
 - `instant`: spawnmenu-style instant execution (`sv_instant.lua`)
 - `interface`: UI/network interface execution (`sv_interface.lua`)
-- `lua`: server-side direct execution helpers (`sv_server.lua`)
+- `lua`: server-side direct execution helpers (`sv_lua.lua`)
+
+Client-side console and Lua interfaces (`cl_console.lua`, `cl_lua.lua`) and the shared autocomplete layer (`sh_autocomplete.lua`) extend this on the client realm.
 
 Each interface:
 

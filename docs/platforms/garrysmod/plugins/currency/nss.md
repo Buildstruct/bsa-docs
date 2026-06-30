@@ -249,6 +249,13 @@ All operands are coerced with `nss.fromAny(...)` and return new NSS objects.
 	Returns the quotient and remainder of the absolute magnitudes as two values.\
 	Throws on divide by zero.
 
+- `#!ts nss:addAbs(other: any): nss.object`\
+	Adds the absolute magnitudes of both values, ignoring their signs.
+
+- `#!ts nss:subAbs(other: any): nss.object`\
+	Subtracts the absolute magnitudes, ignoring signs.\
+	The left operand must be greater than or equal to the right, or it throws.
+
 - `#!ts nss:mod(other: any): nss.object`\
 	Returns the signed remainder of division.
 

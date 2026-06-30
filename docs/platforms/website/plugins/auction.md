@@ -1,5 +1,5 @@
-# {{ state("private") }} Inventory
-A server-authoritative item storage system with custom item attributes, world drops, an audit ledger, and scope-based inventories that can range from a single server to community-wide across platforms.
+# {{ state("private") }} Auction
+A player & automated marketplace for timed auctions and Buy-It-Now (BIN) listings, built on the currency and inventory systems.
 
 !!! abstract
 	We are working on getting the concepted and developed.

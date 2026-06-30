@@ -26,6 +26,7 @@ Your interface must provide:
 - `groups(invoker, callback)`
 - `primary(invoker, callback)`
 - `secondary(invoker, callback)`
+- `scope(invoker, perm_name, targets, callback)`
 - `can(invoker, other, permissions, callback)`
 - `has(invoker, permissions, callback)`
 

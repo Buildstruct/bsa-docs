@@ -6,12 +6,14 @@ Read/write interface for `bsa_punishments` with scoped replication, active-cache
 	See [bsa_punishments](../../../database/tables/bsa_punishments.md) for implementation & design requirements.
 
 ## Functions
-- `#!ts punishments:add(target: Player|string, invoker: Player|string, type: string, duration?: number, reason: string, callback?: function(entry|false, err?: string))`\
-	Creates a punishment in current provider/service/server scope.
+- `#!ts punishments:add(target: Player|string, invoker: Player|string, type: string, duration?: number, reason: string, callback?: function(entry|false, err?: string), hidden?: boolean)`\
+	Creates a punishment in current provider/service/server scope.\
+	`hidden` (trailing the callback) marks the punishment as hidden from non-privileged views.
 
-- `#!ts punishments:addex(target: Player|string, invoker: Player|string, type: string, duration?: number, reason: string, scopes: table, callback?: function(entry|false, err?: string))`\
+- `#!ts punishments:addex(target: Player|string, invoker: Player|string, type: string, duration?: number, reason: string, scopes: table, callback?: function(entry|false, err?: string), hidden?: boolean)`\
 	Creates punishment with explicit scopes.\
-	`scopes` is a list of `{provider_id: number?, service_id: number?, server_id: number?}` tables; each entry becomes one row in `bsa_punishment_links`.
+	`scopes` is a list of `{provider_id: number?, service_id: number?, server_id: number?}` tables, each entry becomes one row in `bsa_punishment_links`.\
+	Fails with `"no scopes provided"` if empty. `hidden` is the trailing boolean.
 
 - `#!ts punishments:revoke(id: number, revoker: Player|string, callback?: function(entry|false, err?: string))`\
 	Sets `revoker_id` and removes active entry from local identifier cache.
@@ -33,6 +35,22 @@ Read/write interface for `bsa_punishments` with scoped replication, active-cache
 
 - `#!ts punishments:reduration(id: number, new_duration?: number, callback?: function(entry|false, err?: string))`\
 	Updates duration (`NULL` for permanent) and re-sorts cached entries.
+
+- `#!ts punishments:rehidden(id: number, new_hidden: boolean, callback?: function(entry|false, err?: string))`\
+	Toggles the `hidden` flag and patches the cached row.\
+	Broadcasts `database.punishments:update`.
+
+- `#!ts punishments:rescope(id: number, scope: table, callback?: function(entry|false, err?: string))`\
+	Replaces the punishment's scope links with a single `{provider_id?, service_id?, server_id?}` scope.\
+	Broadcasts `database.punishments:rescope`.
+
+- `#!ts punishments:scope_add(id: number, scope: table, callback?: function(entry|false, err?: string))`\
+	Adds one scope link.\
+	Fails with `"scope link already exists"` if the link is a duplicate. Broadcasts `database.punishments:scope_added`.
+
+- `#!ts punishments:scope_remove(id: number, link_id: number, callback?: function(entry|false, err?: string))`\
+	Removes one scope link by `link_id`. Refuses to remove the last link (`"must keep at least one scope"`).\
+	Broadcasts `database.punishments:scope_removed`.
 
 - `#!ts punishments:sort(cache: table)`\
 	Sort helper for cache ordering (permanent entries first, then longest expiry).
@@ -110,9 +128,12 @@ Dispatchers are always first-order and used internally by BSA.
 - `#!ts punishments.searcher:invoker(identifier_or_player_id: string|number): self`
 - `#!ts punishments.searcher:revoker(identifier_or_player_id: string|number): self`
 - `#!ts punishments.searcher:reason(fragment: string): self`
+- `#!ts punishments.searcher:hidden(include: boolean): self`\
+	A one-directional filter: a falsy value excludes hidden rows (`hidden = 0`); a truthy value adds no clause (returns all, including hidden).
 - `#!ts punishments.searcher:server(name_or_id: string|number): self`
 - `#!ts punishments.searcher:service(name_or_id: string|number): self`
 - `#!ts punishments.searcher:provider(name_or_id: string|number): self`
+- `#!ts punishments.searcher:scope(server_id?: number, service_id?: number, provider_id?: number): self`
 - `#!ts punishments.searcher:sort_by_created()`
 - `#!ts punishments.searcher:sort_by_username()`
 - `#!ts punishments.searcher:sort_by_expires()`

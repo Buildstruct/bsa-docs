@@ -66,6 +66,7 @@ nav:
               - Structure: platforms/garrysmod/command/structure.md
               - Interface: platforms/garrysmod/command/interface.md
           - Database:
+              - Admission: platforms/garrysmod/database/admission.md
               - Groups: platforms/garrysmod/database/groups.md
               - Interlink: platforms/garrysmod/database/interlink.md
               - Permissions: platforms/garrysmod/database/permissions.md
@@ -108,6 +109,7 @@ nav:
               - Dispatcher: platforms/garrysmod/libraries/dispatcher.md
               - Datastore: platforms/garrysmod/libraries/datastore.md
               - Flux: platforms/garrysmod/libraries/flux.md
+              - FHTTP: platforms/garrysmod/libraries/fhttp.md
               - Paint: platforms/garrysmod/libraries/paint.md
               - GeoIP: platforms/garrysmod/libraries/geoip.md
               - SFB: platforms/garrysmod/libraries/sfb.md
@@ -124,6 +126,9 @@ nav:
                   - Overview: platforms/garrysmod/plugins/currency/index.md
                   - NSS: platforms/garrysmod/plugins/currency/nss.md
               - Inventory: platforms/garrysmod/plugins/inventory.md
+              - Auction: platforms/garrysmod/plugins/auction.md
+              - Bazaar: platforms/garrysmod/plugins/bazaar.md
+              - Trade: platforms/garrysmod/plugins/trade.md
               - Logging: platforms/garrysmod/plugins/logging.md
       - SourceMod:
           - Overview: platforms/source/index.md
@@ -157,6 +162,8 @@ nav:
               - Context Reference: platforms/website/plugins/context.md
               - Currency: platforms/website/plugins/currency.md
               - Inventory: platforms/website/plugins/inventory.md
+              - Auction: platforms/website/plugins/auction.md
+              - Bazaar: platforms/website/plugins/bazaar.md
       - S&Box:
           - Overview: platforms/s&box/index.md
       - Rust:
