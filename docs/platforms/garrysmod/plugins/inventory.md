@@ -162,12 +162,13 @@ Drops require the item type to have been registered with an `entity` descriptor.
 	Commits an escrowed drop to `picker`.
 
 - {{ realm("server") }} `#!ts inventory:tag(ent: Entity, id: string, options: table): boolean`\
-	Marks an entity spawned outside this system (spawn menu, gamemode, etc) as pickup-able for `handle_pickup`.\
+	Marks an entity spawned outside this system (spawn menu, gamemode, etc) as pickup-able for `untag`.\
 	`options` may include `stack`, `attributes`, and `scope`. Always an ownerless give, no escrow, same as `spawn`.
 
-- {{ realm("server") }} `#!ts inventory:untag(ent: Entity, ply: Player, callback?: function(ok: boolean, res: any))`\
+- {{ realm("server") }} `#!ts inventory:untag(ent: Entity, ply: Player | false, callback?: function(ok: boolean, res: any))`\
 	Resolves a dropped/spawned/tagged entity's escrow or give into `ply`'s inventory.\
 	Call it from `ENT:Use`, the built-in `bsa_inventory_drop` entity already does; a custom `entity` class must call it itself.\
+	Pass `ply = false` from `ENT:OnRemove` instead to signal the entity is gone: any escrow on it is destroyed rather than given out.\
 	Omit `callback` for the default pickup message + removal, or pass one to decide the entity's fate yourself.
 
 ## Client methods
