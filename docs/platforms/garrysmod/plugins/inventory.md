@@ -151,7 +151,7 @@ Drops require the item type to have been registered with an `entity` descriptor.
 
 - {{ realm("server") }} `#!ts inventory:drop(target: Player | Steam, id: string, options: table, callback?: function(ok: boolean, escrow_id?: number, entity?: Entity))`\
 	Escrows a stack from `target` and spawns a world entity at their aim.\
-	Another player pressing USE commits it to themselves; the escrow auto-refunds if the server restarts before pickup.
+	The escrow auto-refunds if the server restarts before pickup.
 
 - {{ realm("server") }} `#!ts inventory:spawn(id: string, options: table, callback?: function(ok: boolean, entity?: Entity)): Entity`\
 	Spawns an ownerless world item (no escrow).\
@@ -159,8 +159,16 @@ Drops require the item type to have been registered with an `entity` descriptor.
 	`options` may include `attributes`, `pos`, and `ang`.
 
 - {{ realm("server") }} `#!ts inventory:pickup(escrow_id: number, picker: Player | Steam, options: table, callback?: function(ok: boolean, item_id?: number))`\
-	Commits an escrowed drop to `picker`.\
-	Called automatically by the built-in USE handler; only call it manually for custom pickup flows.
+	Commits an escrowed drop to `picker`.
+
+- {{ realm("server") }} `#!ts inventory:tag(ent: Entity, id: string, options: table): boolean`\
+	Marks an entity spawned outside this system (spawn menu, gamemode, etc) as pickup-able for `handle_pickup`.\
+	`options` may include `stack`, `attributes`, and `scope`. Always an ownerless give, no escrow, same as `spawn`.
+
+- {{ realm("server") }} `#!ts inventory:untag(ent: Entity, ply: Player, callback?: function(ok: boolean, res: any))`\
+	Resolves a dropped/spawned/tagged entity's escrow or give into `ply`'s inventory.\
+	Call it from `ENT:Use`, the built-in `bsa_inventory_drop` entity already does; a custom `entity` class must call it itself.\
+	Omit `callback` for the default pickup message + removal, or pass one to decide the entity's fate yourself.
 
 ## Client methods
 The client holds a read-only cache of the local player's own inventory, kept in sync by server pushes.\
