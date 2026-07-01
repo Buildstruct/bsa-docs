@@ -27,6 +27,18 @@ The `item` table accepts:
 | `OnGiven` | `function?` | — | {{ realm("server") }} Fired when an online player receives a stack: `function(ply, item_id, info: {source, stack})`. |
 | `OnDestroyed` | `function?` | — | {{ realm("server") }} Fired when an online player's stack is fully consumed: `function(ply, item_id, info: {source, stack})`. |
 
+When `entity` is a table (the built-in `bsa_inventory_drop`), it also accepts lifecycle hooks, all `function(ent: Entity)`:
+
+| Hook | Realm | Fires |
+|---|---|---|
+| `preinitialize` | {{ realm("server") }} | Right after `ents.Create`, before position/owner are set. |
+| `prespawn` | {{ realm("server") }} | After position/owner are set, before `ent:Spawn()`. |
+| `postspawn` | {{ realm("server") }} | Right after `ent:Spawn()`. |
+| `postinitialize` | {{ realm("server") }} | After the entity is tagged (`bsa_item_type` etc. are set). |
+| `remove` | {{ realm("server") }} | `ENT:OnRemove`, before any escrow on it is destroyed. Fires whether or not it was ever picked up. |
+| `client_initialize` | {{ realm("client") }} | Once per client, the first time `bsa_item_type` replicates to them (not tied to `ENT:Initialize` timing). |
+| `client_remove` | {{ realm("client") }} | When the entity is removed on that client. |
+
 ```lua
 hook.Add("BSA.Plugins:enable", "MyPlugin.Items", function(name, plugin)
 	if name ~= "inventory" then return end
