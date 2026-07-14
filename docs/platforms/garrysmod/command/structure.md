@@ -28,11 +28,31 @@ Common flags available across many argument types:
 - `single = true` forces single match for set-based targets.
 - `limit = n` max count for set-based targets.
 - `filter = "..."` blocks specific picker prefixes for `player`/`entity`.
-- `gated = true` (on `player`) filters resolved targets through the invoker's `can` check, dropping any the invoker may not act on.
+- `include = { ... }` / `exclude = { ... }` restrict `entity` targets to, or away from, a set of classnames.
+- `restrict = ...` gates resolved targets by authority on `player`/`entity`.
 
 `options` and `default` may be **functions** instead of static values.\
 They are resolved asynchronously at validation time: the function receives `(invoker, callback, flags)` and must call `callback(true, value)` or `callback(false, err)`.\
 Use this for option lists that depend on runtime state.
+
+## Target Gating
+
+`restrict` filters resolved targets on `player` and `entity` arguments, dropping any the invoker has no authority over.\
+`gated` is accepted as an alias.
+
+- `#!ts restrict = true`\
+A target is dropped when its primary group weight is greater than the invoker's, equal weight passes.
+
+- `#!ts restrict = "permission"` / `#!ts restrict = { "permission", ... }`\
+Weight, escalated by permission authority.\
+A target of greater weight may still be actionable when the invoker holds the named permission(s) at a higher effective weight.
+
+- `#!ts restrict = function(invoker, target, flags, callback)`\
+Custom gate, resolved asynchronously per target.\
+Call `callback(true)` to allow, or `callback(false, reason)` to deny with a custom message.
+
+On `entity`, authority resolves through ownership: a player entity gates on itself, an owned entity gates on its `CPPIGetOwner()`, and an unowned map entity has no one to outrank and passes.\
+An unregistered permission name denies rather than allows, so a typo in `restrict` fails closed.
 
 ## Built-In Argument Types
 
@@ -84,6 +104,9 @@ Examples:
 Supports:
 
 - `min`, `max`, `default`, `optional`
+
+!!! note
+	On an invalid value, `select` and `multi` narrow the reported options to those resembling the input and cap the list, appending `(+n more)`. A resolved `options` list can hold every group or permission on the server, so the full set is never echoed back.
 
 ---
 
@@ -200,6 +223,16 @@ Examples:
 - `#prop_physics` - all prop_physics
 - `* - #npc_*` - all entities except npcs
 - `$120` - entity index 120
+
+Supports:
+
+- `classes`, `exclude`, `restrict`, `single`, `limit`, `filter`
+
+`classes` and `exclude` bound what the command may act on at all, and are checked before `restrict`:
+
+```lua
+:argument("entity", { classes = { "prop_physics" }, restrict = true })
+```
 
 ---
 

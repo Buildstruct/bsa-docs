@@ -18,22 +18,12 @@ This creates configurations that lets administrators enable/disable the category
 
 ---
 
-- `#!ts logging:metadata(name: string, alias: string)`
-
-!!! warning
-	Do not call `metadata()` inside a hook callback or per-event code path.\
-	Call it once during plugin enable.
-
-Registers a metadata category with the logging plugin.\
-This creates config nodes for copying notifications and context menus.
-
----
-
 - {{ realm("server") }} `#!ts logging:emit(cfg: configurate.proxy | string, msg: repr.object, meta?: table, options?: table): table`
 
 Emits a log entry to be stored and uploaded for administrators.\
-The meta table expects a name & value array `{name: string, value: string}` if used.\
-Meta tables should be properly populated for searching capabilities.
+Metadata requires no registration, pass it directly on `emit`.\
+See [Metadata](#metadata) for the accepted forms.\
+Populate metadata well so records remain searchable.
 
 The options table is an additional set to be passed into how logs are processed.
 
@@ -43,6 +33,44 @@ The options table is an additional set to be passed into how logs are processed.
 | `silent` | `boolean` | When `true`, restricts network delivery to players who have both `utility.logging` **and** `commands.silent.visible`. |
 | `send_players` | `boolean | Entity` | Set to `false` to suppress all player delivery. Defaults to the category's `players` config value. |
 | `interface_recipients` | `Player[]?` | Explicit recipient list for interface pushes. When `nil`, sends to all players with `utility.logging`. |
+
+---
+
+## Metadata
+
+Metadata is language-agnostic: the display label is derived from the key and the semantic type is detected from the value. There is no per-key registration.
+
+`emit` accepts either form:
+
+```lua
+-- hash form (simplest) — keys ordered alphabetically in the interface
+logging:emit("chat", msg, {
+    username = ply:Nick(),
+    identifier = ply:SteamID64(), -- detected as an identifier
+    message = text,
+    silent = false, -- boolean -> flag, hidden from the copy menu
+})
+
+-- array form — preserves order, and allows an explicit type override
+logging:emit("chat", msg, {
+    {name = "username", value = ply:Nick()},
+    {name = "identifier", value = ply:SteamID64()},
+    {name = "message", value = text},
+})
+```
+
+**Labels** are humanized from the key: `old_name` → "Old Name", `attacker_identifier` → "Attacker ID" (common acronyms like `id`/`ip`/`url` are upper-cased).
+
+**Types** are auto-detected and drive interface behavior:
+
+| Type | Detected from | Interface behavior |
+|---|---|---|
+| `identifier` | key `identifier` or ending in `_identifier` | Copyable, exposes player actions (time, groups, punishments). |
+| `flag` | a boolean value (or the string `"true"`/`"false"`) | Hidden from the copy menu. |
+| `number` | a number value | Copyable. |
+| `text` | anything else (default) | Copyable. |
+
+Pass `type` on an array entry to override detection. Types are derived, not stored, `bsa_logging_meta` keeps only `name` and `value`, and deep-storage rows re-derive their type on read.
 
 ---
 
@@ -72,14 +100,14 @@ The following categories are registered by the logging plugin itself.\You can re
 
 ## Example
 
-The following shows a complete integration from an external plugin. It registers a custom category during the logging enable event, then emits a record whenever something relevant happens.
+The following shows a complete integration from an external plugin.\
+It registers a custom category during the logging enable event, then emits a record whenever something relevant happens.
 
 ```lua
 -- add this hook shared
 local category
 hook.Add("BSA.Plugins:enable", "Sample", function(name, plugin)
 	if name ~= "logging" then return end
-	logging:metadata("sample_meta", "Sample Meta")
 	category = logging:category("sample", "Sample", Color(0, 200, 255))
 end)
 
@@ -92,11 +120,11 @@ hook.Add("Example", "sample", function(some_player, some_string)
 	-- create our message throught REPR
 	local msg_instruct = logging:repr(some_player, " (" .. some_player:SteamID64() .. ") did " .. some_string)
 
-	-- emit it under "sample" category with some metadata
+	-- emit it under "sample" category — labels and types are derived automatically
 	logging:emit("sample", msg_instruct, {
-		{name = "username", value = some_player:Nick()},
-		{name = "identifier", value = some_player:SteamID64()},
-		{name = "sample_meta", value = some_string}
+		username = some_player:Nick(),
+		identifier = some_player:SteamID64(),
+		sample_meta = some_string,
 	}, {
 		-- we can make it so that if they can see logs, they don't see their own networked to them.
 		exclude = some_player

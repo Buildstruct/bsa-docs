@@ -32,6 +32,9 @@ Mutating callbacks follow `callback(status: boolean, result_or_err)` where `resu
 - {{ realm("server") }} `#!ts bazaar:reclaim(seller: Player | Steam, listing_id: number, callback: function(status: boolean, err?: string))`\
 	Cancels a listing: returns remaining stock and any uncollected proceeds, and refunds the unsold portion of the tax (`unit_tax * quantity_remaining`).
 
+- {{ realm("server") }} `#!ts bazaar:reclaim_as_admin(listing_id: number, callback: function(status: boolean, err?: string))`\
+	Admin variant of `reclaim` that resolves the seller from the listing row without an identity check.
+
 ### Reading
 
 - {{ realm("server") }} `#!ts bazaar:browse(filter: table, callback: function(listings: table[]))`\

@@ -24,6 +24,8 @@ CREATE TABLE `bsa_logging_meta` (
 - value - the metadata value for this key.
 
 ## Notes
+Meta rows store only `name` and `value`; the semantic type (identifier, flag, number, text) is derived from them at render time and is not persisted.
+
 Multiple meta rows per log entry are expected.\
 The `idx_logging_meta_lookup` index supports fast retrieval of all metadata for a given log entry.
 
