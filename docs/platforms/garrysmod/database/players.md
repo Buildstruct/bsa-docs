@@ -12,20 +12,24 @@ Read/write interface for `bsa_players`, `bsa_accounts`, `bsa_player_groups`, and
 
 ### Lookup
 
-- `#!ts players:exists(account: Player|string, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:accounts(account: Player|string, callback?: function(data[] | false, secondaries[] | string))`\
+  Finds accounts associated with a player, including secondary groups.\
+  Calls back with account data, or `false` on error.
+
+- `#!ts players:exists(account: Player|string, callback?: function(data | false, secondaries[] | string))`\
   Looks up an account row by the current provider + identifier (e.g.\
   SteamID64).\
   Calls back with account data and secondary group links, or `false` on not found.
 
-- `#!ts players:exists_by_pid(player_id: number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:exists_by_pid(player_id: number, callback?: function(data | false, secondaries[] | string))`\
   Same as `exists` but looks up by internal `player_id`.
 
-- `#!ts players:exists_by_aid(account_id: number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:exists_by_aid(account_id: number, callback?: function(data | false, secondaries[] | string))`\
   Same as `exists` but looks up by `account_id`.
 
 ### Connect + session
 
-- `#!ts players:new(name: string, account: Player|string, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:new(name: string, account: Player|string, callback?: function(data | false, secondaries[] | string))`\
   Finds or creates `bsa_players` and `bsa_accounts` rows for a player, then creates a session entry for the current server.\
   Used on player connect.
 
@@ -53,25 +57,25 @@ Read/write interface for `bsa_players`, `bsa_accounts`, `bsa_player_groups`, and
 
 ### Groups
 
-- `#!ts players:setprimary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:setprimary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Changes the player's primary group (`bsa_players.group_id`).\
   Fires an interlink command and updates runtime variables if the player is online.
 
-- `#!ts players:setprimary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:setprimary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Same as `setprimary` but targets by `player_id` instead of identifier.
 
-- `#!ts players:addsecondary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:addsecondary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Adds a secondary group row in `bsa_player_groups`.\
   Updates runtime `bsa_secondary` if the player is online.
 
-- `#!ts players:addsecondary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:addsecondary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Same as `addsecondary` but targets by `player_id`.
 
-- `#!ts players:removesecondary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:removesecondary(account: Player|string, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Removes a secondary group row.\
   Updates runtime `bsa_secondary` if the player is online.
 
-- `#!ts players:removesecondary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries?, err?))`\
+- `#!ts players:removesecondary_bypid(player_id: number, group_name: string|number, callback?: function(data | false, secondaries[] | string))`\
   Same as `removesecondary` but targets by `player_id`.
 
 ### Addresses
