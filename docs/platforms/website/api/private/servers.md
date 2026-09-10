@@ -34,3 +34,4 @@ Differs from the [public layer](../public/servers.md) in two ways:
 | `alive` | `0 \| 1` | `1` if heartbeat within the last 60 seconds, or `server_id = 1` |
 | `created_at` | `string` | |
 | `heartbeat_at` | `string` | |
+| `player_count` | `number` | |

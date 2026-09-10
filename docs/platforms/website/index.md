@@ -22,6 +22,7 @@ This allows administrators to remotely perform actions on BSA instances without 
 
 - BSA styled command systems similar to Platform Garry's Mod.
 - Customizable SSO logins from Steam to Discord, or anything that a provider can link towards.
+- OAuth provider so third-party applications can authenticate users through BSA and receive their identity and groups.
 - Draggable and resizable windows for easy management and cross referencing of information.
 - Highly configurable on-the-fly similar to Platform Garry's Mod configurate system.
 - Plugins for both front-end and back-end additions without affecting core features.

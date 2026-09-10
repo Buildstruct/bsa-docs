@@ -136,6 +136,13 @@ nav:
           - Overview: platforms/sourcenet/index.md
       - Website:
           - Overview: platforms/website/index.md
+          - OAuth:
+              - Overview: platforms/website/oauth/index.md
+              - Endpoints:
+                  - Authorize: platforms/website/oauth/authorize.md
+                  - Token: platforms/website/oauth/token.md
+                  - Userinfo: platforms/website/oauth/userinfo.md
+                  - Discovery: platforms/website/oauth/discovery.md
           - API:
               - Overview: platforms/website/api/index.md
               - Public:
