@@ -33,6 +33,11 @@ Read/write interface for `bsa_players`, `bsa_accounts`, `bsa_player_groups`, and
   Finds or creates `bsa_players` and `bsa_accounts` rows for a player, then creates a session entry for the current server.\
   Used on player connect.
 
+- `#!ts players:create_account(player_id: number, provider: string|number, identifier: string, username: string, callback?: function(data | false, secondaries[] | string))`\
+  Creates a `bsa_accounts` row for an existing player, under the provider given by name or `provider_id`.\
+  If the provider + identifier pair already exists on that player the username is refreshed and the row returned, if it belongs to another player the call fails.\
+  Intended for linking external identities, such as Discord.
+
 - `#!ts players:refresh(entity: Player, callback?: function(data | false, err?))`\
   Forces a full reload of a connected player's session and account data.\
   Intended for debugging — not for production use.
