@@ -32,6 +32,7 @@ nav:
         - Providers: database/tables/bsa_providers.md
         - Services: database/tables/bsa_services.md
         - Servers: database/tables/bsa_servers.md
+        - Server Metadata: database/tables/bsa_server_metadata.md
         - Groups: database/tables/bsa_groups.md
         - Group Links: database/tables/bsa_group_links.md
         - Players: database/tables/bsa_players.md

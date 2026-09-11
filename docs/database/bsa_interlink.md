@@ -5,7 +5,7 @@ While we could have used Websockets, RPC or MQ, we decided to use internal SQL q
 
 ## Runtime Lifecycle
 1. Platform starts and resolves provider/service identity (`bsa_providers`, `bsa_services`).
-2. Platform heartbeats into `bsa_servers` (default every 30s).
+2. Platform heartbeats into `bsa_servers` (default every 30s) and refreshes its own `bsa_server_metadata` keys.
 3. Platform polls `bsa_command` fanout (default every 5s).
 4. Platform ACKs seen commands in `bsa_command_acknowledge`.
 5. Registered handlers update local cache/state and invoke local events.

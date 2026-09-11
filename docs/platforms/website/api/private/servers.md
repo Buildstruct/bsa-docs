@@ -14,7 +14,7 @@ Differs from the [public layer](../public/servers.md) in two ways:
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `search` | `string` | — | Partial name match (max 256 chars) |
+| `search` | `string` | — | Partial name or metadata match (max 256 chars) |
 | `order` | `created` \| `heartbeat` \| `name` | `created` | Sort column |
 | `sorting` | `ascending` \| `DESC` | `DESC` | Sort direction |
 | `limit` | `number` | `25` | Page size (capped by server config) |
@@ -35,3 +35,4 @@ Differs from the [public layer](../public/servers.md) in two ways:
 | `created_at` | `string` | |
 | `heartbeat_at` | `string` | |
 | `player_count` | `number` | |
+| `metadata` | `Record<string, string>` | Free-form server metadata, such as `map`, reported on heartbeat |

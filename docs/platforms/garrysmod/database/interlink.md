@@ -33,8 +33,8 @@ Sends command only to named server(s) through `sp_cmd_send_names`.
 Sends command to all servers except named server(s) through `sp_cmd_omit_names`.
 
 - `#!ts interlink:servers(search?: string, callback?: function(rows|false, err?: string))`\
-Lists servers (joined with service name).\
-Search matches server name/address.
+Lists servers (joined with service name), each with a `metadata` table attached.\
+Search matches server name/address and any metadata value.
 
 - `#!ts interlink:providers(search?: string, callback?: function(rows|false, err?: string))`\
 Lists providers; search matches provider `name`/`alias`.
@@ -49,7 +49,7 @@ Fetches providers, services, and servers in one transaction.
 Pulls pending commands expected for this server, inserts ACK rows, and executes registered handlers unless `invalidate` is `true`.
 
 - `#!ts interlink:heartbeat(callback?: function(server|false, err?: string))`\
-Upserts this server row in `bsa_servers`, updates heartbeat timestamp, and updates `interlink.server`.
+Upserts this server row in `bsa_servers`, replaces its `bsa_server_metadata` keys, updates heartbeat timestamp, and updates `interlink.server`.
 
 ## Runtime Events
 - `#!ts interlink.connected(server: table, service: table, provider: table)`\
@@ -60,6 +60,10 @@ Fired when global DB connection drops.
 
 - `#!ts interlink.changed(old_server: table, new_server: table)`\
 Fired when heartbeat resolves to a different `server_id` than before.
+
+- `#!ts interlink.metadata(data: table<string, string>)`\
+Fired while collecting heartbeat metadata.\
+Mutate `data` to add or override keys before they are written.
 
 ## Hooks
 GMod hooks fired alongside the dispatcher events above.\
@@ -74,11 +78,16 @@ Fired when global DB connection drops.
 - `#!ts BSA.Interlink:changed(old_server: table, new_server: table)`\
 Fired when heartbeat resolves to a different `server_id` than before.
 
+- `#!ts BSA.Interlink:metadata(data: table<string, string>)`\
+Fired while collecting heartbeat metadata.\
+Mutate `data` to add or override keys before they are written.
+
 ## Searcher Object
 `interlink.searcher` is a query-builder class for server listing pages.
 
 ### Builder Methods
 - `#!ts interlink.searcher:server(name_or_id: string|number): self`
+- `#!ts interlink.searcher:metadata(key: string, value: string): self`
 - `#!ts interlink.searcher:service(name_or_id: string|number): self`
 - `#!ts interlink.searcher:sort_by_name()`
 - `#!ts interlink.searcher:sort_by_created()`

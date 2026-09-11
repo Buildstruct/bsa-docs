@@ -47,3 +47,7 @@ No trigger currently locks this row, so treat it as reserved operationally.
 - Command fanout logic should target only alive servers.
 - If a server is considered hidden it must not be visible to the public at all.
 - If a server is considered temporary it must be removed upon being marked offline.
+- Per-server metadata such as the active map belongs in [bsa_server_metadata](bsa_server_metadata.md), not in new columns here.
+
+## Related
+- [bsa_server_metadata](bsa_server_metadata.md) stores free-form per-server key/value data reported on heartbeat.
