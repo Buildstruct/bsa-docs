@@ -1,5 +1,5 @@
 # {{ realm("shared") }} Flux
-One network string wrapper for multi-channel messaging with SFB/SFS serialization, optional chunk streaming, and built-in replicated variables.
+One network string wrapper for multi-channel messaging with SFB/SFS serialization, optional chunk streaming, built-in replicated variables and data tables.
 
 !!! info
 	See [core/libraries/flux.lua](https://github.com/Buildstruct/bsa-platform-gmod/blob/develop/lua/bsa/core/libraries/flux.lua) for the actual design implementation.
@@ -256,3 +256,69 @@ Return values are only consumed for `onread`, `ondebounce`, `oncondition`, and `
 - `#!ts schema:onsync(callback: function(entity: Entity | Player | false, value: any))`\
 	Runs when sync/replication applies a value.\
 	Expected return: ignored.
+
+## Data Tables
+`flux.datatable` is constructed as `flux.datatable = flux.datatable:new(flux)` and provides a network variable (`NetworkVar`) system inspired by Garry's Mod's own data tables, but backed by `flux.variables` instead of the engine data table slots.
+
+!!! note
+	Every data table variable is stored as a `flux.variables` entry namespaced under `DT.`, so a network var named `Speed` occupies the variable `DT.Speed`.\
+	This keeps data table variables from colliding with regular variables.
+
+!!! note
+	Replication is server-authoritative.\
+	`Set*` calls on the client are local only and are not sent to the server.
+
+```lua
+local dt = BSA.Network.datatable
+
+function ENT:SetupDataTables()
+	dt:dt(self)
+
+	self:NetworkVar("Float", 0, "Speed")
+	self:NetworkVarElement("Angle", 0, "y", "Yaw")
+	self:NetworkVarNotify("Speed", function(ent, name, old, new)
+		-- fires after a local or replicated change
+	end)
+end
+```
+
+- `#!ts flux.datatable:dt(entity: Entity | Player | table): Entity | Player | table`\
+	Installs the data table onto an entity/table.\
+	Populates `dt`, `__DT`, `__DTT`, `__DTC`, and the `DTVar` methods, mirroring GMod's `InstallDataTable`.
+
+- `#!ts flux.datatable:key(name: string): string`\
+	Returns the namespaced `flux.variables` key for a data table name (`"DT." .. name`).
+
+- `#!ts entity:__FindUnusedIndex(typename: string): number`\
+	Returns the first unused slot index for a typename, or `0` when the typetable is empty.
+
+- `#!ts entity:IsDTVarSlotUsed(typename: string, index: number): boolean`\
+	Returns whether a slot index is occupied for a typename.
+
+- `#!ts entity:DTVar(typename: string, index?: number, name?: string): table`\
+	Core declaration.\
+	When `index` is a string and `name` is omitted, `name` is taken from `index` and a free slot is found automatically.\
+	Known typenames: `String`, `Bool`, `Float`, `Int`, `Vector`, `Angle`, `Entity`, `Table`.
+
+- `#!ts entity:NetworkVar(typename: string, index?: number, name?: string, other_data?: table): table`\
+	Declares a data table variable and installs `Set<Name>` / `Get<Name>` accessors.\
+	`other_data.KeyName` optionally registers the KeyValue/editing hooks when the entity provides `SetupKeyValue` / `SetupEditing`.
+
+- `#!ts entity:NetworkVarElement(typename: string, index?: number, element?: string, name?: string, other_data?: table): table`\
+	Declares a single-component accessor over a compound type (`Vector`/`Angle`).\
+	Installs `Set<Name>` / `Get<Name>` for the named `element` (e.g. `"x"`, `"y"`, `"z"`, `"p"`, `"yaw"`, `"roll"`).
+
+- `#!ts entity:NetworkVarNotify(name: string, callback: function(entity: Entity | Player | false, name: string, old: any, new: any))`\
+	Binds a change callback for a declared variable.\
+	Unlike GMod, this fires on the client as well as the server.\
+	Errors if the variable has not been declared.
+
+- `#!ts entity:GetNetworkVars(): table?`\
+	Returns a plain table of all non-`Entity` variables for saving/duplicating (element vars return their component).\
+	Returns `nil` when empty.
+
+- `#!ts entity:RestoreNetworkVars(tab: table?)`\
+	Restores variables from a table produced by `GetNetworkVars`.\
+	Prefers the `Set<Name>` accessor when present, otherwise writes through the variable directly.
+
+Each declared variable is also readable/writable through the entity's `dt` proxy (`entity.dt.Speed`).
